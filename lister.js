@@ -11,7 +11,7 @@
   }
 
   function load(dir) {
-    var path = dir.replace(/\/$/, '') || '';
+    var path = dir.replace(/^\/|\/$/g, '') || '';
     el.innerHTML = '<tr><td colspan="3" class="status">Loading…</td></tr>';
     var parts = path.split('/').filter(Boolean);
     var label = parts.length ? parts.join('/') + '/' : '(root)';
