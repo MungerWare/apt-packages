@@ -40,8 +40,8 @@ SUB_PAGE_TOP = """<!DOCTYPE html>
 </head>
 <body>
 <div class="banner"><a href="https://github.com/Munger"><img src="https://repos.mungerware.com/logo.png" alt="MungerWare"></a></div>
-<div class="sub"><a href="/">MungerWare APT Repository</a> / <span id="dirpath">{title}/</span></div>
 <div class="page">
+<p style="margin:12px 0 4px"><a href="/">MungerWare APT Repository</a> / <span id="dirpath">{title}/</span></p>
 <table>
 <thead><tr><th>Name</th><th>Type</th><th>Size</th></tr></thead>
 <tbody>
