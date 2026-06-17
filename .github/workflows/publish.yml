@@ -32,7 +32,15 @@ jobs:
           apt-ftparchive sources . > ../dists/noble/main/source/Sources
           gzip -9 -c ../dists/noble/main/source/Sources > ../dists/noble/main/source/Sources.gz
           cd ..
-          apt-ftparchive release dists/noble > dists/noble/Release
+          apt-ftparchive release \
+            -o APT::FTPArchive::Release::Origin="Munger" \
+            -o APT::FTPArchive::Release::Label="Munger Packages" \
+            -o APT::FTPArchive::Release::Suite="noble" \
+            -o APT::FTPArchive::Release::Codename="noble" \
+            -o APT::FTPArchive::Release::Architectures="amd64 arm64 source" \
+            -o APT::FTPArchive::Release::Components="main" \
+            -o APT::FTPArchive::Release::Description="Munger personal package repository" \
+            dists/noble > dists/noble/Release
           gpg --yes --armor --detach-sign --output dists/noble/Release.gpg dists/noble/Release
           gpg --yes --clear-sign --output dists/noble/InRelease dists/noble/Release
 
