@@ -11,9 +11,14 @@
   code{font-size:0.9em}
   a{color:#0366d6}
   hr{border:none;border-top:1px solid #ddd;margin:30px 0}
+  .avatar{float:left;margin-right:15px;margin-top:4px}
+  .avatar img{width:48px;height:48px;border-radius:6px}
+  .copyright{color:#888;font-size:0.85em}
 </style>
 </head>
 <body>
+
+<div class="avatar"><a href="https://github.com/Munger"><img src="https://avatars.githubusercontent.com/u/1307685" alt="Munger"></a></div>
 
 <h1>Munger Packages</h1>
 <p>APT repository and Homebrew tap for Munger software packages.</p>
@@ -31,18 +36,19 @@ brew install mirror-dedupe</pre>
 <h2>Packages</h2>
 <ul>
   <li><a href="https://github.com/Munger/mirror-dedupe">mirror-dedupe</a> &mdash; pool-based Debian/Ubuntu mirror syncing with hardlink deduplication</li>
-  <li><a href="https://github.com/Munger/mikro-common">mikro-common</a> &mdash; common library for MikroTik automation</li>
-  <li><a href="https://github.com/Munger/mikro-dns">mikro-dns</a> &mdash; MikroTik DNS management</li>
-  <li><a href="https://github.com/Munger/munger-pxeboot">munger-pxeboot</a> &mdash; PXE boot server automation</li>
 </ul>
-
-<p>Browse packages: <a href="pool/">pool/</a></p>
 
 <h2>GPG Key</h2>
 <pre>curl -fsSL https://munger.github.io/packages/key.asc</pre>
 
+<p><a href="https://github.com/Munger/packages">Source repository</a></p>
+
 <hr>
-<p><a href="https://github.com/Munger/packages">GitHub</a></p>
+
+<p class="copyright">
+Copyright &copy; 2026 <a href="https://github.com/Munger">Tim Hosking</a>.
+Licensed under the <a href="https://opensource.org/licenses/MIT">MIT License</a>.
+</p>
 
 </body>
 </html>
