@@ -24,8 +24,8 @@
 <p>APT repository and Homebrew tap for Munger software packages.</p>
 
 <h2>APT (Debian/Ubuntu)</h2>
-<pre>curl -fsSL https://munger.github.io/packages/key.asc | sudo gpg --dearmor -o /usr/share/keyrings/munger.gpg
-echo "deb [signed-by=/usr/share/keyrings/munger.gpg] https://munger.github.io/packages/ noble main" | sudo tee /etc/apt/sources.list.d/munger.list
+<pre>curl -fsSL https://apt.mungerware.com/key.asc | sudo gpg --dearmor -o /usr/share/keyrings/munger.gpg
+echo "deb [signed-by=/usr/share/keyrings/munger.gpg] https://apt.mungerware.com/ noble main" | sudo tee /etc/apt/sources.list.d/munger.list
 sudo apt-get update
 sudo apt-get install mirror-dedupe</pre>
 
