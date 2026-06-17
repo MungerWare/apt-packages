@@ -45,8 +45,9 @@
         el.innerHTML = html;
         history.replaceState({d: path}, '', path ? '/' + path + '/' : '/');
       })
-      .catch(function() {
+      .catch(function(err) {
         el.innerHTML = '<tr><td colspan="3" class="status">Failed to load directory</td></tr>';
+        console.error('lister fetch error:', err);
       });
   }
 
