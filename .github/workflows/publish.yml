@@ -44,6 +44,9 @@ jobs:
           gpg --yes --armor --detach-sign --output dists/noble/Release.gpg dists/noble/Release
           gpg --yes --clear-sign --output dists/noble/InRelease dists/noble/Release
 
+      - name: Generate directory indexes
+        run: python3 scripts/generate-dir-indexes.py
+
       - name: Prepare deploy
         run: rm -f .gitignore
 
