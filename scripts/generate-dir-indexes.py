@@ -52,7 +52,8 @@ PAGE_BOTTOM = """</tbody>
 <hr>
 <p class="copyright">
 Copyright &copy; 2026 <a href="https://github.com/Munger">Tim Hosking</a>.
-<a href="https://github.com/Munger/packages">Source</a>
+<a href="https://github.com/Munger/packages">Source</a> &mdash;
+<a href="https://repos.mungerware.com/LICENCE.html">MIT License</a>
 </p>
 </div>
 </body>
