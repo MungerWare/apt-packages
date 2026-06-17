@@ -67,11 +67,10 @@ def build_page(dirpath: str, rel: str, *, include_lister: bool = False) -> str:
     top = FULL_PAGE_TOP.format(title=rel)
     parts = [top]
 
-    # Parent link (except for top-level dirs like dists/, pool/)
-    if "/" in rel:
-        parts.append(
-            '        <tr><td><a href="../">../</a></td><td>directory</td><td>-</td></tr>'
-        )
+    # Parent link — every directory gets one back to its parent
+    parts.append(
+        '        <tr><td><a href="../">../</a></td><td>directory</td><td>-</td></tr>'
+    )
 
     entries = sorted(os.listdir(dirpath))
     subdirs = []
