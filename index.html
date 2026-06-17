@@ -12,6 +12,8 @@
 
 <div class="content">
 
+<p style="margin:12px 0 4px"><a href="https://repos.mungerware.com/">repos.mungerware.com</a> / APT</p>
+
 <h2>Setup</h2>
 
 <pre>curl -fsSL https://apt.mungerware.com/key.asc | sudo gpg --dearmor -o /usr/share/keyrings/munger.gpg
@@ -19,9 +21,7 @@ echo "deb [signed-by=/usr/share/keyrings/munger.gpg] https://apt.mungerware.com/
 sudo apt-get update
 sudo apt-get install mirror-dedupe</pre>
 
-<h2>Browse</h2>
 <ul>
-  <li><a href="https://repos.mungerware.com/">../</a> &mdash; MungerWare repositories</li>
   <li><a href="pool/">pool/</a> &mdash; package files (.deb)</li>
   <li><a href="dists/">dists/</a> &mdash; APT metadata (Release, Packages)</li>
   <li><a href="key.asc">key.asc</a> &mdash; GPG public key</li>
