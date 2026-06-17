@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Redirecting…</title>
+<script>
+(function() {
+  var path = location.pathname.replace(/\/$/, '') || '';
+  var parts = path.split('/').filter(Boolean);
+  var root = parts[0];
+  if (root === 'pool' || root === 'dists') {
+    location.replace('/' + root + '/#' + path);
+  } else {
+    location.replace('/');
+  }
+})();
+</script>
+</head>
+<body>
+<p><a href="/">Munger APT Repository</a></p>
+</body>
+</html>

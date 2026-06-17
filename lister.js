@@ -1,26 +1,68 @@
-(async () => {
-  const repo = 'Munger/packages';
-  const path = location.pathname.replace(/\/$/, '') || '';
-  const list = document.getElementById('list');
+(function() {
+  var repo = 'Munger/packages';
+  var el = document.getElementById('list');
+  var hd = document.getElementById('dirpath');
+  var pt = document.getElementById('pagetitle');
 
-  try {
-    const res = await fetch(`https://api.github.com/repos/${repo}/contents${path}?ref=gh-pages`);
-    if (!res.ok) { list.innerHTML = '<tr><td colspan="3">Error loading directory</td></tr>'; return; }
-    const items = await res.json();
-    let html = '';
-
-    if (path.includes('/')) {
-      const parent = path.substring(0, path.lastIndexOf('/')) || '';
-      html += `<tr><td><a href="${parent}/">..</a></td><td>dir</td><td></td></tr>`;
-    }
-
-    for (const item of items) {
-      const url = item.type === 'dir' ? `${path}/${item.name}/` : `${path}/${item.name}`;
-      const size = item.type === 'file' ? (item.size < 1024 ? item.size + ' B' : item.size < 1048576 ? (item.size/1024).toFixed(1) + ' KB' : (item.size/1048576).toFixed(1) + ' MB') : '';
-      html += `<tr><td><a href="${url}">${item.name}</a></td><td>${item.type === 'dir' ? 'dir' : 'file'}</td><td>${size}</td></tr>`;
-    }
-    list.innerHTML = html;
-  } catch (e) {
-    list.innerHTML = '<tr><td colspan="3">Failed to load</td></tr>';
+  function fmt(b) {
+    if (b < 1024) return b + ' B';
+    if (b < 1048576) return (b / 1024).toFixed(1) + ' KB';
+    return (b / 1048576).toFixed(1) + ' MB';
   }
+
+  function load(dir) {
+    var path = dir.replace(/\/$/, '') || '';
+    el.innerHTML = '<tr><td colspan="3" class="status">Loading…</td></tr>';
+    var parts = path.split('/').filter(Boolean);
+    var label = parts.length ? parts.join('/') + '/' : '(root)';
+    if (hd) hd.textContent = label;
+    if (pt) pt.textContent = label + ' — Munger APT Repository';
+
+    fetch('https://api.github.com/repos/' + repo + '/contents' + (path ? '/' + path : '') + '?ref=gh-pages')
+      .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+      .then(function(items) {
+        var html = '';
+        if (path) {
+          var sl = path.lastIndexOf('/');
+          // Determine what the parent link should be
+          if (sl === -1) {
+            // Top level — ".." goes to repo root /
+            html += '<tr><td><a href="/">..</a></td><td>dir</td><td></td></tr>';
+          } else {
+            var up = path.substring(0, sl);
+            html += '<tr><td><a href="#" class="d" data-d="' + up + '">..</a></td><td>dir</td><td></td></tr>';
+          }
+        }
+        for (var i = 0; i < items.length; i++) {
+          var item = items[i];
+          if (item.name === 'index.html' || item.name === '404.html') continue;
+          if (item.type === 'dir') {
+            html += '<tr><td><a href="#" class="d" data-d="' + (path ? path + '/' : '') + item.name + '">' + item.name + '/</a></td><td>dir</td><td></td></tr>';
+          } else {
+            html += '<tr><td><a href="' + (path ? path + '/' : '') + item.name + '">' + item.name + '</a></td><td>file</td><td>' + fmt(item.size) + '</td></tr>';
+          }
+        }
+        el.innerHTML = html;
+        history.replaceState({d: path}, '', path ? '/' + path + '/' : '/');
+      })
+      .catch(function() {
+        el.innerHTML = '<tr><td colspan="3" class="status">Failed to load directory</td></tr>';
+      });
+  }
+
+  el.addEventListener('click', function(e) {
+    var link = e.target.closest('.d');
+    if (!link) return;
+    e.preventDefault();
+    load(link.getAttribute('data-d'));
+  });
+
+  window.addEventListener('popstate', function(e) {
+    if (e.state && e.state.d !== undefined) load(e.state.d);
+  });
+
+  // Read initial directory from hash (set by 404.html for subdirectory direct links),
+  // or from the URL pathname
+  var initial = location.hash ? location.hash.substring(1) : location.pathname.replace(/\/$/, '') || '';
+  load(initial);
 })();
