@@ -36,6 +36,9 @@ jobs:
           gpg --yes --armor --detach-sign --output dists/noble/Release.gpg dists/noble/Release
           gpg --yes --clear-sign --output dists/noble/InRelease dists/noble/Release
 
+      - name: Prepare deploy
+        run: rm -f .gitignore
+
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
