@@ -9,18 +9,43 @@
   h1{color:#111}
   pre{background:#f5f5f5;padding:12px;border-radius:6px;overflow-x:auto;font-family:SFMono-Regular,Consolas,monospace;font-size:0.9em;white-space:pre-wrap;word-break:break-word}
   a{color:#0366d6}
+  hr{border:none;border-top:1px solid #ddd;margin:30px 0}
+  .avatar{float:left;margin-right:18px;margin-top:4px}
+  .avatar img{width:96px;height:96px;border-radius:8px}
+  .copyright{color:#888;font-size:0.85em}
+  ul{list-style:none;padding:0}
+  ul li{margin:6px 0}
+  ul li a{font-family:SFMono-Regular,Consolas,monospace;font-size:1.1em}
 </style>
 </head>
 <body>
 
+<div class="avatar"><a href="https://github.com/Munger"><img src="https://avatars.githubusercontent.com/u/1307685" alt="Munger"></a></div>
+
 <h1>Munger APT Repository</h1>
+
+<h2>Setup</h2>
 
 <pre>curl -fsSL https://apt.mungerware.com/key.asc | sudo gpg --dearmor -o /usr/share/keyrings/munger.gpg
 echo "deb [signed-by=/usr/share/keyrings/munger.gpg] https://apt.mungerware.com/ noble main" | sudo tee /etc/apt/sources.list.d/munger.list
 sudo apt-get update
 sudo apt-get install mirror-dedupe</pre>
 
+<h2>Browse</h2>
+<ul>
+  <li><a href="pool/">pool/</a> &mdash; package files (.deb)</li>
+  <li><a href="dists/">dists/</a> &mdash; APT metadata (Release, Packages)</li>
+  <li><a href="key.asc">key.asc</a> &mdash; GPG public key</li>
+</ul>
+
 <p><a href="https://github.com/Munger/packages">Source repository</a></p>
+
+<hr>
+
+<p class="copyright">
+Copyright &copy; 2026 <a href="https://github.com/Munger">Tim Hosking</a>.
+Licensed under the MIT License.
+</p>
 
 </body>
 </html>
