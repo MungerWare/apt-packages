@@ -29,6 +29,7 @@ jobs:
 
       - name: Generate APT metadata
         run: |
+          mkdir -p dists/noble/main/binary-amd64 dists/noble/main/binary-arm64 dists/noble/main/source
           cd pool
           for arch in amd64 arm64; do
             apt-ftparchive packages . > ../dists/noble/main/binary-$arch/Packages
