@@ -1,0 +1,54 @@
+name: publish
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install apt-ftparchive
+        run: sudo apt-get update && sudo apt-get install -y apt-utils
+
+      - name: Import GPG key
+        run: |
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --import --batch
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --import --batch --armor
+
+      - name: Generate APT metadata
+        run: |
+          cd pool
+          for arch in amd64 arm64; do
+            apt-ftparchive packages . > ../dists/noble/main/binary-$arch/Packages
+            gzip -9 -c ../dists/noble/main/binary-$arch/Packages > ../dists/noble/main/binary-$arch/Packages.gz
+          done
+          apt-ftparchive sources . > ../dists/noble/main/source/Sources
+          gzip -9 -c ../dists/noble/main/source/Sources > ../dists/noble/main/source/Sources.gz
+          cd ..
+          apt-ftparchive release dists/noble > dists/noble/Release
+          gpg --yes --armor --detach-sign --output dists/noble/Release.gpg dists/noble/Release
+          gpg --yes --clear-sign --output dists/noble/InRelease dists/noble/Release
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

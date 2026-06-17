@@ -1,0 +1,54 @@
+name: ingest
+on:
+  repository_dispatch:
+    types: [new-release]
+
+jobs:
+  fetch-and-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download release assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          repo="${{ github.event.client_payload.repo }}"
+          tag="${{ github.event.client_payload.tag }}"
+          pkg="$(echo "$repo" | cut -d/ -f2)"
+
+          gh release download "$tag" --repo "$repo" --pattern "*.deb"
+
+          for deb in *.deb; do
+            [ -f "$deb" ] || continue
+            first="$(echo "$pkg" | cut -c1)"
+            mkdir -p "pool/main/$first/$pkg"
+            mv "$deb" "pool/main/$first/$pkg/"
+          done
+
+      - name: Update Homebrew formula
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          repo="${{ github.event.client_payload.repo }}"
+          tag="${{ github.event.client_payload.tag }}"
+          pkg="$(echo "$repo" | cut -d/ -f2)"
+          formula="Formula/${pkg}.rb"
+
+          [ -f "$formula" ] || exit 0
+
+          url="https://github.com/$repo/archive/refs/tags/$tag.tar.gz"
+          sha="$(curl -sL "$url" | sha256sum | cut -d' ' -f1)"
+
+          sed -i "s|url \".*\"|url \"$url\"|" "$formula"
+          sed -i "s|sha256 \".*\"|sha256 \"$sha\"|" "$formula"
+
+      - name: Commit and push
+        run: |
+          git config user.name "Munger Bot"
+          git config user.email "munger@mungerware.com"
+          git add pool/ Formula/
+          git diff --staged --quiet || git commit -m "ingest: ${{ github.event.client_payload.repo }} ${{ github.event.client_payload.tag }}"
+          git push

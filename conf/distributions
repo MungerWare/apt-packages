@@ -1,0 +1,7 @@
+Origin: Munger
+Label: Munger Packages
+Codename: noble
+Architectures: amd64 arm64 source
+Components: main
+Description: Munger personal package repository
+SignWith: munger@mungerware.com
