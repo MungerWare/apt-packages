@@ -24,14 +24,12 @@ jobs:
       - name: Generate APT metadata
         run: |
           mkdir -p dists/noble/main/binary-amd64 dists/noble/main/binary-arm64 dists/noble/main/source
-          cd pool
           for arch in amd64 arm64; do
-            apt-ftparchive packages . > ../dists/noble/main/binary-$arch/Packages
-            gzip -9 -c ../dists/noble/main/binary-$arch/Packages > ../dists/noble/main/binary-$arch/Packages.gz
+            apt-ftparchive packages pool > dists/noble/main/binary-$arch/Packages
+            gzip -9 -c dists/noble/main/binary-$arch/Packages > dists/noble/main/binary-$arch/Packages.gz
           done
-          apt-ftparchive sources . > ../dists/noble/main/source/Sources
-          gzip -9 -c ../dists/noble/main/source/Sources > ../dists/noble/main/source/Sources.gz
-          cd ..
+          apt-ftparchive sources pool > dists/noble/main/source/Sources
+          gzip -9 -c dists/noble/main/source/Sources > dists/noble/main/source/Sources.gz
           apt-ftparchive release \
             -o APT::FTPArchive::Release::Origin="MungerWare" \
             -o APT::FTPArchive::Release::Label="MungerWare" \
