@@ -23,24 +23,25 @@ jobs:
 
       - name: Generate APT metadata
         run: |
-          mkdir -p dists/noble/main/binary-amd64 dists/noble/main/binary-arm64 dists/noble/main/source
-          for arch in amd64 arm64; do
-            apt-ftparchive packages pool > dists/noble/main/binary-$arch/Packages
-            gzip -9 -c dists/noble/main/binary-$arch/Packages > dists/noble/main/binary-$arch/Packages.gz
+          SUITES="noble resolute"
+          for suite in $SUITES; do
+            mkdir -p "dists/$suite/main/binary-amd64" "dists/$suite/main/binary-arm64"
+            for arch in amd64 arm64; do
+              apt-ftparchive packages pool > "dists/$suite/main/binary-$arch/Packages"
+              gzip -9 -c "dists/$suite/main/binary-$arch/Packages" > "dists/$suite/main/binary-$arch/Packages.gz"
+            done
+            apt-ftparchive release \
+              -o APT::FTPArchive::Release::Origin="MungerWare" \
+              -o APT::FTPArchive::Release::Label="MungerWare" \
+              -o APT::FTPArchive::Release::Suite="$suite" \
+              -o APT::FTPArchive::Release::Codename="$suite" \
+              -o APT::FTPArchive::Release::Architectures="amd64 arm64" \
+              -o APT::FTPArchive::Release::Components="main" \
+              -o APT::FTPArchive::Release::Description="MungerWare APT repository" \
+              "dists/$suite" > "dists/$suite/Release"
+            gpg --yes --armor --detach-sign --output "dists/$suite/Release.gpg" "dists/$suite/Release"
+            gpg --yes --clear-sign --output "dists/$suite/InRelease" "dists/$suite/Release"
           done
-          apt-ftparchive sources pool > dists/noble/main/source/Sources
-          gzip -9 -c dists/noble/main/source/Sources > dists/noble/main/source/Sources.gz
-          apt-ftparchive release \
-            -o APT::FTPArchive::Release::Origin="MungerWare" \
-            -o APT::FTPArchive::Release::Label="MungerWare" \
-            -o APT::FTPArchive::Release::Suite="noble" \
-            -o APT::FTPArchive::Release::Codename="noble" \
-            -o APT::FTPArchive::Release::Architectures="amd64 arm64 source" \
-            -o APT::FTPArchive::Release::Components="main" \
-            -o APT::FTPArchive::Release::Description="MungerWare APT repository" \
-            dists/noble > dists/noble/Release
-          gpg --yes --armor --detach-sign --output dists/noble/Release.gpg dists/noble/Release
-          gpg --yes --clear-sign --output dists/noble/InRelease dists/noble/Release
 
       - name: Generate directory indexes
         run: python3 scripts/generate-dir-indexes.py
