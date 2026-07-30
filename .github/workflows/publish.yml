@@ -39,6 +39,24 @@ jobs:
               -o APT::FTPArchive::Release::Components="main" \
               -o APT::FTPArchive::Release::Description="MungerWare APT repository" \
               "dists/$suite" > "dists/$suite/Release"
+
+            # by-hash: generated AFTER Release, so apt-ftparchive's directory
+            # scan (already done above) never sees/catalogs them as separate
+            # entries. Each index file gets a permanent copy at its own
+            # hash-named path, alongside the fixed path - lets clients avoid
+            # ever fetching stale content through an intermediate cache/CDN,
+            # since a changed file is a new URL rather than new content at an
+            # old one.
+            for arch in amd64 arm64; do
+              for f in Packages Packages.gz; do
+                src="dists/$suite/main/binary-$arch/$f"
+                hash=$(sha256sum "$src" | cut -d' ' -f1)
+                mkdir -p "dists/$suite/main/binary-$arch/by-hash/SHA256"
+                cp "$src" "dists/$suite/main/binary-$arch/by-hash/SHA256/$hash"
+              done
+            done
+            sed -i '/^MD5Sum:/i Acquire-By-Hash: yes' "dists/$suite/Release"
+
             gpg --yes --armor --detach-sign --output "dists/$suite/Release.gpg" "dists/$suite/Release"
             gpg --yes --clear-sign --output "dists/$suite/InRelease" "dists/$suite/Release"
           done
