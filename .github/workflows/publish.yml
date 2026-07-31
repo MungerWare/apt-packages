@@ -24,11 +24,12 @@ jobs:
           SRC_REPO="${{ github.event.client_payload.repo }}"
           TAG="${{ github.event.client_payload.tag }}"
           echo "Pulling ${PKG_NAME} from ${SRC_REPO} tag ${TAG}"
+          PREFIX="${PKG_NAME:0:1}"
           mkdir -p /tmp/dispatch
           gh release download "$TAG" --repo "$SRC_REPO" --dir /tmp/dispatch
           for deb in /tmp/dispatch/*.deb; do
-            mkdir -p "pool/main/$PKG_NAME"
-            cp "$deb" "pool/main/$PKG_NAME/"
+            mkdir -p "pool/main/$PREFIX/$PKG_NAME"
+            cp "$deb" "pool/main/$PREFIX/$PKG_NAME/"
             echo "Staged: $(basename $deb)"
           done
 
@@ -47,8 +48,9 @@ jobs:
             pkgname=$(basename "$pkgdir")
             version=$(grep "^Version:" "${pkgdir}DEBIAN/control" | head -1 | awk '{print $2}')
             arch=$(grep "^Architecture:" "${pkgdir}DEBIAN/control" | head -1 | awk '{print $2}')
-            mkdir -p "pool/main/$pkgname"
-            dpkg-deb --build "$pkgdir" "pool/main/$pkgname/${pkgname}_${version}_${arch}.deb"
+            prefix="${pkgname:0:1}"
+            mkdir -p "pool/main/$prefix/$pkgname"
+            dpkg-deb --build "$pkgdir" "pool/main/$prefix/$pkgname/${pkgname}_${version}_${arch}.deb"
           done
 
       - name: Generate APT metadata
