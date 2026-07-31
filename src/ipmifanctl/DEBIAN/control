@@ -1,0 +1,11 @@
+Package: ipmifanctl
+Version: 1.0.0-1
+Architecture: all
+Section: admin
+Priority: optional
+Maintainer: Tim Hosking <munger@mungerware.com>
+Depends: ipmitool
+Description: Dell PowerEdge fan speed control via IPMI
+ Provides the ipmifanctl command for controlling fan speed on Dell
+ PowerEdge servers via ipmitool raw commands. Disables automatic
+ thermal management and sets fan to a specified percentage (5-100%).

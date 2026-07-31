@@ -1,0 +1,11 @@
+#!/bin/bash
+[ "$EUID" -ne 0 ] && { echo "Error: Must run as root"; exit 1; }
+echo "Setting next boot to PXE..."
+if command -v ipmitool >/dev/null 2>&1; then
+  ipmitool chassis bootdev pxe options=efiboot && echo "Next boot: PXE" && sleep 2 && reboot -f
+elif command -v efibootmgr >/dev/null 2>&1; then
+  PXE=$(efibootmgr | grep -iE "network|pxe|ip4|ip6|gbe|ethernet" | head -1 | sed 's/Boot\([0-9A-F]*\).*/\1/')
+  [ -n "$PXE" ] && efibootmgr --bootnext "$PXE" && echo "Next boot: PXE (Boot$PXE)" && sleep 2 && reboot -f || { echo "Error: No PXE entry found"; exit 1; }
+else
+  echo "Error: No supported method (ipmitool/efibootmgr)"; exit 1
+fi
