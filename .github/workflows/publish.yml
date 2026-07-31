@@ -47,29 +47,19 @@ jobs:
             pkgname=$(basename "$pkgdir")
             version=$(grep "^Version:" "${pkgdir}DEBIAN/control" | head -1 | awk '{print $2}')
             arch=$(grep "^Architecture:" "${pkgdir}DEBIAN/control" | head -1 | awk '{print $2}')
-            prefix="${pkgname:0:1}"
-            mkdir -p "pool/mungerware/$prefix/$pkgname"
-            dpkg-deb --build "$pkgdir" "pool/mungerware/$prefix/$pkgname/${pkgname}_${version}_${arch}.deb"
+            mkdir -p "pool/main/$pkgname"
+            dpkg-deb --build "$pkgdir" "pool/main/$pkgname/${pkgname}_${version}_${arch}.deb"
           done
 
       - name: Generate APT metadata
         run: |
           SUITES="noble resolute"
-          COMPONENTS="main mungerware"
           for suite in $SUITES; do
-            for component in $COMPONENTS; do
-              mkdir -p "dists/$suite/$component/binary-amd64" "dists/$suite/$component/binary-arm64"
-              for arch in amd64 arm64; do
-                if [ "$component" = "main" ]; then
-                  pool_dirs="vendored main"
-                else
-                  pool_dirs="mungerware"
-                fi
-                (cd pool && apt-ftparchive packages $pool_dirs) \
-                  > "../dists/$suite/$component/binary-$arch/Packages"
-                gzip -9 -c "dists/$suite/$component/binary-$arch/Packages" \
-                  > "dists/$suite/$component/binary-$arch/Packages.gz"
-              done
+            mkdir -p "dists/$suite/main/binary-amd64" "dists/$suite/main/binary-arm64"
+            for arch in amd64 arm64; do
+              apt-ftparchive packages pool/main > "dists/$suite/main/binary-$arch/Packages"
+              gzip -9 -c "dists/$suite/main/binary-$arch/Packages" \
+                > "dists/$suite/main/binary-$arch/Packages.gz"
             done
 
             apt-ftparchive release \
@@ -78,19 +68,17 @@ jobs:
               -o APT::FTPArchive::Release::Suite="$suite" \
               -o APT::FTPArchive::Release::Codename="$suite" \
               -o APT::FTPArchive::Release::Architectures="amd64 arm64" \
-              -o APT::FTPArchive::Release::Components="main mungerware" \
+              -o APT::FTPArchive::Release::Components="main" \
               -o APT::FTPArchive::Release::Description="MungerWare APT repository" \
               "dists/$suite" > "dists/$suite/Release"
 
-            # by-hash for each component
-            for component in $COMPONENTS; do
-              for arch in amd64 arm64; do
-                for f in Packages Packages.gz; do
-                  src="dists/$suite/$component/binary-$arch/$f"
-                  hash=$(sha256sum "$src" | cut -d' ' -f1)
-                  mkdir -p "dists/$suite/$component/binary-$arch/by-hash/SHA256"
-                  cp "$src" "dists/$suite/$component/binary-$arch/by-hash/SHA256/$hash"
-                done
+            # by-hash
+            for arch in amd64 arm64; do
+              for f in Packages Packages.gz; do
+                src="dists/$suite/main/binary-$arch/$f"
+                hash=$(sha256sum "$src" | cut -d' ' -f1)
+                mkdir -p "dists/$suite/main/binary-$arch/by-hash/SHA256"
+                cp "$src" "dists/$suite/main/binary-$arch/by-hash/SHA256/$hash"
               done
             done
 
