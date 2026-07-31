@@ -3,6 +3,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  repository_dispatch:
+    types: [publish-package]
 
 permissions:
   contents: write
@@ -12,6 +14,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Handle repository_dispatch (pull published package)
+        if: github.event_name == 'repository_dispatch'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PKG_NAME="${{ github.event.client_payload.package }}"
+          SRC_REPO="${{ github.event.client_payload.repo }}"
+          TAG="${{ github.event.client_payload.tag }}"
+          echo "Pulling ${PKG_NAME} from ${SRC_REPO} tag ${TAG}"
+          mkdir -p /tmp/dispatch
+          gh release download "$TAG" --repo "$SRC_REPO" --dir /tmp/dispatch
+          for deb in /tmp/dispatch/*.deb; do
+            prefix="${PKG_NAME:0:1}"
+            mkdir -p "pool/vendored/$prefix/$PKG_NAME"
+            cp "$deb" "pool/vendored/$prefix/$PKG_NAME/"
+            echo "Staged: $(basename $deb)"
+          done
 
       - name: Install apt-ftparchive
         run: sudo apt-get update && sudo apt-get install -y apt-utils
