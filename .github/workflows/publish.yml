@@ -27,9 +27,8 @@ jobs:
           mkdir -p /tmp/dispatch
           gh release download "$TAG" --repo "$SRC_REPO" --dir /tmp/dispatch
           for deb in /tmp/dispatch/*.deb; do
-            prefix="${PKG_NAME:0:1}"
-            mkdir -p "pool/vendored/$prefix/$PKG_NAME"
-            cp "$deb" "pool/vendored/$prefix/$PKG_NAME/"
+            mkdir -p "pool/main/$PKG_NAME"
+            cp "$deb" "pool/main/$PKG_NAME/"
             echo "Staged: $(basename $deb)"
           done
 
@@ -49,8 +48,8 @@ jobs:
             version=$(grep "^Version:" "${pkgdir}DEBIAN/control" | head -1 | awk '{print $2}')
             arch=$(grep "^Architecture:" "${pkgdir}DEBIAN/control" | head -1 | awk '{print $2}')
             prefix="${pkgname:0:1}"
-            mkdir -p "pool/main/$prefix/$pkgname"
-            dpkg-deb --build "$pkgdir" "pool/main/$prefix/$pkgname/${pkgname}_${version}_${arch}.deb"
+            mkdir -p "pool/mungerware/$prefix/$pkgname"
+            dpkg-deb --build "$pkgdir" "pool/mungerware/$prefix/$pkgname/${pkgname}_${version}_${arch}.deb"
           done
 
       - name: Generate APT metadata
@@ -62,12 +61,12 @@ jobs:
               mkdir -p "dists/$suite/$component/binary-amd64" "dists/$suite/$component/binary-arm64"
               for arch in amd64 arm64; do
                 if [ "$component" = "main" ]; then
-                  pool_dir="pool/vendored"
+                  pool_dirs="vendored main"
                 else
-                  pool_dir="pool/main"
+                  pool_dirs="mungerware"
                 fi
-                (cd "$pool_dir" && apt-ftparchive packages .) \
-                  > "dists/$suite/$component/binary-$arch/Packages"
+                (cd pool && apt-ftparchive packages $pool_dirs) \
+                  > "../dists/$suite/$component/binary-$arch/Packages"
                 gzip -9 -c "dists/$suite/$component/binary-$arch/Packages" \
                   > "dists/$suite/$component/binary-$arch/Packages.gz"
               done
