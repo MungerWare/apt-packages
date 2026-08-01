@@ -1,5 +1,5 @@
 Package: mw-pxeboot
-Version: 1.0.0-1
+Version: 1.0.0-2
 Architecture: all
 Section: admin
 Priority: optional

@@ -1,4 +1,11 @@
 #!/bin/bash
+VERSION=$(dpkg-query -W -f='${Version}' mw-pxeboot 2>/dev/null || echo "unknown")
+case "$1" in
+  -v|--version|version)
+    echo "mw-pxeboot $VERSION"
+    exit 0
+    ;;
+esac
 [ "$EUID" -ne 0 ] && { echo "Error: Must run as root"; exit 1; }
 echo "Setting next boot to PXE..."
 if ipmitool chassis bootdev pxe options=efiboot >/dev/null 2>&1; then
