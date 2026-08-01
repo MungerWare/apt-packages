@@ -6,5 +6,5 @@ Priority: optional
 Maintainer: Tim Hosking <munger@mungerware.com>
 Depends: ipmitool, efibootmgr
 Description: Set next boot to PXE and reboot
- Provides the pxeboot command for setting a server's next boot
+ Provides the mw-pxeboot command for setting a server's next boot
  to PXE via ipmitool (Dell/iDRAC) or efibootmgr (UEFI systems).
