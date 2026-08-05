@@ -5,18 +5,24 @@ usage() {
   cat <<'EOF'
 Usage: mw-pxeboot [OPTIONS]
 
-Set the next boot to PXE and reboot immediately (default action).
+Set the next boot to PXE and reboot (default action). Always asks for
+confirmation first unless --force is given -- this reboots the host
+into network install, which will wipe and reinstall it.
 
 Options:
   -h, --help          Show this help and exit
   -v, --version       Show version and exit
-  --purge-non-pxe     Delete all UEFI NVRAM boot entries except the
-                      detected PXE/network boot entry. Does not reboot.
-  --force             Skip the confirmation prompt for --purge-non-pxe
+  --purge-non-pxe     Additionally delete all UEFI NVRAM boot entries
+                      except the detected PXE/network boot entry before
+                      rebooting. The confirmation prompt lists exactly
+                      what will be deleted. Does not reboot at all if
+                      any entry failed to delete.
+  --force             Skip the confirmation prompt
 
 Examples:
-  mw-pxeboot                  Set next boot to PXE and reboot now
-  mw-pxeboot --purge-non-pxe  Remove stale non-PXE UEFI NVRAM boot entries
+  mw-pxeboot                  Confirm, then set next boot to PXE and reboot
+  mw-pxeboot --purge-non-pxe  Confirm, then also remove stale non-PXE
+                               UEFI NVRAM boot entries before rebooting
 EOF
 }
 
@@ -72,6 +78,27 @@ find_pxe_bootnum() {
   echo "$pxe"
 }
 
+do_boot_pxe() {
+  echo "Setting next boot to PXE..."
+  if ipmitool chassis bootdev pxe options=efiboot >/dev/null 2>&1; then
+    echo "Next boot: PXE"
+    sleep 2
+    reboot -f
+  elif command -v efibootmgr >/dev/null 2>&1; then
+    local pxe
+    pxe=$(find_pxe_bootnum)
+    if [ -n "$pxe" ]; then
+      efibootmgr --bootnext "$pxe" && echo "Next boot: PXE (Boot$pxe)" && sleep 2 && reboot -f
+    else
+      echo "Error: No PXE entry found"
+      exit 1
+    fi
+  else
+    echo "Error: No supported method (ipmitool/efibootmgr)"
+    exit 1
+  fi
+}
+
 case "$ACTION" in
   purge-non-pxe)
     command -v efibootmgr >/dev/null 2>&1 || { echo "Error: efibootmgr not available"; exit 1; }
@@ -86,11 +113,11 @@ case "$ACTION" in
       exit 0
     fi
     echo "PXE boot entry: Boot${PXE} (will be kept)"
-    echo "The following non-PXE NVRAM boot entries will be deleted:"
+    echo "The following non-PXE NVRAM boot entries will be deleted, then the host will reboot to PXE:"
     for b in "${OTHERS[@]}"; do
       efibootmgr | grep "^Boot${b}"
     done
-    confirm "Delete these ${#OTHERS[@]} non-PXE NVRAM boot entries?"
+    confirm "Delete these ${#OTHERS[@]} non-PXE NVRAM boot entries and reboot to PXE?"
     FAILED=0
     for b in "${OTHERS[@]}"; do
       if efibootmgr -b "$b" -B >/dev/null 2>&1; then
@@ -108,26 +135,14 @@ case "$ACTION" in
       echo "implemented here to avoid raw NVRAM writes running unreviewed on other hardware" >&2
       echo "(e.g. r730). See pxeboot's brix2/user-data early-commands for the known-working" >&2
       echo "technique if this needs to be applied post-install." >&2
+      echo "Not rebooting -- purge did not fully succeed." >&2
       exit 1
     fi
+    echo "All non-PXE entries deleted successfully."
+    do_boot_pxe
     ;;
   boot-pxe)
-    echo "Setting next boot to PXE..."
-    if ipmitool chassis bootdev pxe options=efiboot >/dev/null 2>&1; then
-      echo "Next boot: PXE"
-      sleep 2
-      reboot -f
-    elif command -v efibootmgr >/dev/null 2>&1; then
-      PXE=$(find_pxe_bootnum)
-      if [ -n "$PXE" ]; then
-        efibootmgr --bootnext "$PXE" && echo "Next boot: PXE (Boot$PXE)" && sleep 2 && reboot -f
-      else
-        echo "Error: No PXE entry found"
-        exit 1
-      fi
-    else
-      echo "Error: No supported method (ipmitool/efibootmgr)"
-      exit 1
-    fi
+    confirm "Reboot now to set next boot to PXE? This will wipe and reinstall the host."
+    do_boot_pxe
     ;;
 esac
