@@ -1,0 +1,18 @@
+#!/bin/bash
+set -e
+
+case "$1" in
+  configure)
+    # mw-pxeboot may only be executed and edited by root.
+    chown root:root /usr/sbin/mw-pxeboot
+    chmod 0700 /usr/sbin/mw-pxeboot
+    ;;
+  abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+  *)
+    echo "postinst called with unknown argument '$1'" >&2
+    exit 1
+    ;;
+esac
+
+exit 0

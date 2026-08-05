@@ -71,11 +71,14 @@ confirm() {
   esac
 }
 
+find_pxe_bootnums() {
+  efibootmgr | grep -E '^Boot[0-9A-F]{4}' | grep -i "ip4" | sed 's/^Boot\([0-9A-F]*\).*/\1/'
+  efibootmgr | grep -E '^Boot[0-9A-F]{4}' | grep -i "ip6" | sed 's/^Boot\([0-9A-F]*\).*/\1/'
+  efibootmgr | grep -E '^Boot[0-9A-F]{4}' | grep -iE "network|pxe|gbe|ethernet" | grep -viE "ip4|ip6" | sed 's/^Boot\([0-9A-F]*\).*/\1/'
+}
+
 find_pxe_bootnum() {
-  local pxe
-  pxe=$(efibootmgr | grep -i "ip4" | head -1 | sed 's/Boot\([0-9A-F]*\).*/\1/')
-  [ -z "$pxe" ] && pxe=$(efibootmgr | grep -iE "network|pxe|ip6|gbe|ethernet" | head -1 | sed 's/Boot\([0-9A-F]*\).*/\1/')
-  echo "$pxe"
+  find_pxe_bootnums | head -1
 }
 
 do_boot_pxe() {
@@ -102,17 +105,47 @@ do_boot_pxe() {
 case "$ACTION" in
   purge-non-pxe)
     command -v efibootmgr >/dev/null 2>&1 || { echo "Error: efibootmgr not available"; exit 1; }
-    PXE=$(find_pxe_bootnum)
-    if [ -z "$PXE" ]; then
+
+    # Detect PXE entries: IPv4 first, then IPv6, then any other network/pxe-named entry.
+    mapfile -t PXE_LIST < <(find_pxe_bootnums | awk '!seen[$0]++')
+    if [ "${#PXE_LIST[@]}" -eq 0 ]; then
       echo "Error: No PXE entry found -- refusing to purge (would leave no PXE fallback)"
       exit 1
     fi
-    mapfile -t OTHERS < <(efibootmgr | grep -E '^Boot[0-9A-F]{4}' | sed 's/^Boot\([0-9A-F]*\).*/\1/' | grep -v "^${PXE}$")
+    echo "PXE boot entries: ${PXE_LIST[*]} (will be kept)"
+
+    # Reorder BootOrder so the PXE entries come first, IPv4 before IPv6.
+    ORDER_LINE=$(efibootmgr | sed -n 's/^BootOrder: //p')
+    mapfile -t -d ',' ORDER_NUMS < <(printf '%s' "$ORDER_LINE")
+    NEW_ORDER=("${PXE_LIST[@]}")
+    for o in "${ORDER_NUMS[@]}"; do
+      keep=1
+      for p in "${PXE_LIST[@]}"; do
+        if [ "$o" = "$p" ]; then keep=0; break; fi
+      done
+      [ "$keep" -eq 1 ] && NEW_ORDER+=("$o")
+    done
+    NEW_ORDER_STR=$(IFS=,; echo "${NEW_ORDER[*]}")
+    if [ "$NEW_ORDER_STR" != "$ORDER_LINE" ]; then
+      echo "Reordering BootOrder: $NEW_ORDER_STR"
+      efibootmgr -o "$NEW_ORDER_STR"
+    else
+      echo "BootOrder already PXE-first: $ORDER_LINE"
+    fi
+
+    # Attempt to delete every non-PXE NVRAM boot entry.
+    OTHERS=()
+    while read -r b; do
+      skip=0
+      for p in "${PXE_LIST[@]}"; do
+        if [ "$b" = "$p" ]; then skip=1; break; fi
+      done
+      [ "$skip" -eq 0 ] && OTHERS+=("$b")
+    done < <(efibootmgr | grep -E '^Boot[0-9A-F]{4}' | sed 's/^Boot\([0-9A-F]*\).*/\1/')
     if [ "${#OTHERS[@]}" -eq 0 ]; then
       echo "No non-PXE NVRAM boot entries found."
       exit 0
     fi
-    echo "PXE boot entry: Boot${PXE} (will be kept)"
     echo "The following non-PXE NVRAM boot entries will be deleted, then the host will reboot to PXE:"
     for b in "${OTHERS[@]}"; do
       efibootmgr | grep "^Boot${b}"
@@ -129,12 +162,8 @@ case "$ACTION" in
     done
     if [ "$FAILED" -eq 1 ]; then
       echo "Some entries could not be deleted via the standard efibootmgr method." >&2
-      echo "Certain firmware (observed on brix2, AMI UEFI) refuses to delete a Boot#### entry" >&2
-      echo "still listed in BootOrder, and some entries need to be rewritten before a delete" >&2
-      echo "is accepted. That workaround is host/firmware-specific and is deliberately NOT" >&2
-      echo "implemented here to avoid raw NVRAM writes running unreviewed on other hardware" >&2
-      echo "(e.g. r730). See pxeboot's brix2/user-data early-commands for the known-working" >&2
-      echo "technique if this needs to be applied post-install." >&2
+      echo "If any entry remains (e.g. the firmware refuses to delete a Boot#### entry still" >&2
+      echo "listed in BootOrder), re-run after the BootOrder reorder above has taken effect." >&2
       echo "Not rebooting -- purge did not fully succeed." >&2
       exit 1
     fi
