@@ -1,0 +1,213 @@
+#!/bin/bash
+# ocsessnotify - post a message to the most recent opencode session.
+#
+# By default, discovers opencode servers on the LAN via mDNS and posts the
+# message to the session with the most recent activity across all of them.
+# Use --host/--port to target a specific server and --session-id to target a
+# specific session instead of the most recent one.
+#
+# This tool only talks REST to opencode's HTTP API. It does no SSH, no
+# terminal notifications - it posts a message to a session and exits.
+
+VERSION=$(dpkg-query -W -f='${Version}' ocsessnotify 2>/dev/null || echo "unknown")
+
+usage() {
+  cat <<'EOF'
+Usage: ocsessnotify [OPTIONS] MESSAGE
+
+Post MESSAGE to the most recent opencode session on the LAN.
+
+By default servers are discovered via mDNS and the session with the most
+recent activity across all discovered servers is used.
+
+Options:
+  -h, --help          Show this help and exit
+  -v, --version       Show version and exit
+  -H, --host HOST     Server hostname/IP (default: 127.0.0.1)
+  -p, --port PORT     Server port (default: 4096)
+  -s, --session-id ID Post to this session ID instead of the most recent one
+  -t, --timeout SECS  Per-request timeout in seconds (default: 3)
+
+Examples:
+  ocsessnotify "deploy complete"
+  ocsessnotify --host macstudio.stack --port 4096 "deploy complete"
+  ocsessnotify --session-id ses_1234 "specific session"
+EOF
+}
+
+HOST=""
+PORT=""
+SESSION_ID=""
+TIMEOUT=3
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    -v|--version|version)
+      echo "ocsessnotify $VERSION"
+      exit 0
+      ;;
+    -H|--host)
+      HOST="$2"
+      shift 2
+      ;;
+    -p|--port)
+      PORT="$2"
+      shift 2
+      ;;
+    -s|--session-id)
+      SESSION_ID="$2"
+      shift 2
+      ;;
+    -t|--timeout)
+      TIMEOUT="$2"
+      shift 2
+      ;;
+    -*)
+      echo "Error: unknown option '$1'" >&2
+      usage >&2
+      exit 1
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+MESSAGE="$*"
+if [ -z "$MESSAGE" ]; then
+  echo "Error: no message given" >&2
+  usage >&2
+  exit 1
+fi
+
+command -v curl >/dev/null 2>&1 || { echo "Error: curl not found" >&2; exit 1; }
+command -v jq >/dev/null 2>&1 || { echo "Error: jq not found" >&2; exit 1; }
+
+# discover_servers - emit "HOST<TAB>PORT" lines for opencode-* HTTP services.
+# avahi-browse -p is CSV-ish: =;iface;proto;name;type;domain;host;address;port;txt
+discover_servers() {
+  command -v avahi-browse >/dev/null 2>&1 || {
+    echo "Error: avahi-browse not found (package avahi-utils)" >&2
+    return 1
+  }
+  avahi-browse -r -t -p _http._tcp 2>/dev/null | awk -F';' '
+    $1 == "=" && $4 ~ /^opencode-/ && NF >= 9 {
+      print $8 "\t" $9
+    }' | sort -t$'\t' -k2,2 -k1,1 | awk -F'\t' '!seen[$2]++'
+}
+
+# most_recent_session HOST PORT - emit "UPDATED<TAB>ID<TAB>HOST<TAB>PORT" for
+# the most recent session in each project on the server. The server's CWD is
+# queried as well so sessions in the global (non-repo) project are covered.
+most_recent_session() {
+  local host="$1" port="$2" projects cwd wt enc out
+  projects=$(curl -s --max-time "$TIMEOUT" "http://${host}:${port}/project")
+  cwd=$(curl -s --max-time "$TIMEOUT" "http://${host}:${port}/path" |
+    jq -r '.directory // empty')
+  {
+    echo "$projects" | jq -r '.[].worktree // empty'
+    echo "$cwd"
+  } | sort -u | while IFS= read -r wt; do
+    [ -n "$wt" ] || continue
+    enc=$(printf '%s' "$wt" | jq -sRr '@uri')
+    out=$(curl -s --max-time "$TIMEOUT" \
+      "http://${host}:${port}/session?order=desc&limit=1&directory=${enc}")
+    echo "$out" | jq -r --arg host "$host" --arg port "$port" \
+      '.[0] | select(. != null) | "\(.time.updated)\t\(.id)\t\($host)\t\($port)"'
+  done
+}
+
+# session_exists HOST PORT ID - true if the server knows this session.
+session_exists() {
+  local host="$1" port="$2" id="$3"
+  curl -s --max-time "$TIMEOUT" "http://${host}:${port}/session/${id}" |
+    jq -e '.id != null' >/dev/null 2>&1
+}
+
+# post HOST PORT ID MESSAGE - POST the message to the session.
+#
+# The message endpoint streams the AI reply before closing the connection, so a
+# successful post can time out client-side while curl reads the body (exit 28,
+# HTTP 000) even though the message already landed. Exit 0 with HTTP 200, or
+# exit 28, both count as delivered; anything else is a real failure.
+post() {
+  local host="$1" port="$2" id="$3" message="$4" payload out rc
+  payload=$(jq -cn --arg text "$message" \
+    '{noReply:false,parts:[{type:"text",text:$text}]}')
+  out=$(curl -s -o /dev/null -w '%{http_code}' --max-time "$TIMEOUT" \
+    -X POST "http://${host}:${port}/session/${id}/message" \
+    -H "Content-Type: application/json" -d "$payload" 2>/dev/null)
+  rc=$?
+  if [ "$rc" -eq 0 ] && [ "$out" = "200" ]; then
+    echo "Posted to session ${id} on ${host}:${port}"
+    return 0
+  fi
+  if [ "$rc" -eq 28 ]; then
+    echo "Posted to session ${id} on ${host}:${port} (reply stream timed out)"
+    return 0
+  fi
+  echo "Error: POST to ${host}:${port} session ${id} failed (curl exit ${rc}, HTTP ${out})" >&2
+  return 1
+}
+
+TARGET_HOST="${HOST:-127.0.0.1}"
+TARGET_PORT="${PORT:-4096}"
+
+if [ -z "$HOST" ] && [ -z "$PORT" ]; then
+  # mDNS discovery mode
+  SERVERS=$(discover_servers) || exit 1
+  if [ -z "$SERVERS" ]; then
+    echo "Error: no opencode servers discovered via mDNS" >&2
+    exit 1
+  fi
+  if [ -n "$SESSION_ID" ]; then
+    # Find which discovered server hosts the requested session.
+    while IFS=$'\t' read -r sh sp; do
+      [ -n "$sh" ] || continue
+      if session_exists "$sh" "$sp" "$SESSION_ID"; then
+        TARGET_HOST="$sh"
+        TARGET_PORT="$sp"
+        FOUND=1
+        break
+      fi
+    done <<<"$SERVERS"
+    if [ -z "${FOUND:-}" ]; then
+      echo "Error: session ${SESSION_ID} not found on any discovered server" >&2
+      exit 1
+    fi
+  else
+    # Most recent session across all discovered servers.
+    BEST=""
+    while IFS=$'\t' read -r sh sp; do
+      [ -n "$sh" ] || continue
+      BEST="${BEST}
+$(most_recent_session "$sh" "$sp")"
+    done <<<"$SERVERS"
+    BEST=$(printf '%s\n' "$BEST" | sed '/^[[:space:]]*$/d' |
+      sort -t$'\t' -k1,1 -rn | head -1)
+    if [ -z "$BEST" ]; then
+      echo "Error: no sessions found on any discovered server" >&2
+      exit 1
+    fi
+    TARGET_HOST=$(printf '%s\n' "$BEST" | cut -f3)
+    TARGET_PORT=$(printf '%s\n' "$BEST" | cut -f4)
+    SESSION_ID=$(printf '%s\n' "$BEST" | cut -f2)
+  fi
+else
+  # Explicit host/port: session must be given or derived from that server.
+  if [ -z "$SESSION_ID" ]; then
+    BEST=$(most_recent_session "$TARGET_HOST" "$TARGET_PORT" |
+      sort -t$'\t' -k1,1 -rn | head -1)
+    if [ -z "$BEST" ]; then
+      echo "Error: no sessions found on ${TARGET_HOST}:${TARGET_PORT}" >&2
+      exit 1
+    fi
+    SESSION_ID=$(printf '%s\n' "$BEST" | cut -f2)
+  fi
+fi
+
+post "$TARGET_HOST" "$TARGET_PORT" "$SESSION_ID" "$MESSAGE"
