@@ -7,3 +7,6 @@ dists/noble/main/source/Sources
 dists/noble/main/source/Sources.gz
 **/__pycache__/
 *.pyc
+
+# nested clone of Munger/homebrew-packages (tap), managed alongside apt
+homebrew-packages/
