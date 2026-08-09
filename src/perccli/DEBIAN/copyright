@@ -1,8 +1,0 @@
-This package repackages Broadcom's perccli64 binary (Dell PERC CLI utility,
-version 007.1623.0000.0000 / Dell A11), redistributed as-is under Broadcom's
-original license terms. Original source: Dell support downloads (driverid
-52r3d), maintainer bangalore-mr-osutils.pdl@broadcom.com.
-
-Packaging (this control/copyright wrapper only):
-Copyright 2026 Tim Hosking <munger@mungerware.com>
-Licensed under the Apache License, Version 2.0.

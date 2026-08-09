@@ -41,18 +41,6 @@ jobs:
           echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --import --batch
           echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --import --batch --armor
 
-      - name: Build packages from src/
-        run: |
-          for pkgdir in src/*/; do
-            [ -d "$pkgdir/DEBIAN" ] || continue
-            pkgname=$(basename "$pkgdir")
-            version=$(grep "^Version:" "${pkgdir}DEBIAN/control" | head -1 | awk '{print $2}')
-            arch=$(grep "^Architecture:" "${pkgdir}DEBIAN/control" | head -1 | awk '{print $2}')
-            prefix="${pkgname:0:1}"
-            mkdir -p "pool/main/$prefix/$pkgname"
-            dpkg-deb --build "$pkgdir" "pool/main/$prefix/$pkgname/${pkgname}_${version}_${arch}.deb"
-          done
-
       - name: Generate APT metadata
         run: |
           SUITES="noble resolute"
@@ -93,26 +81,8 @@ jobs:
       - name: Generate directory indexes
         run: python3 scripts/generate-dir-indexes.py
 
-      - name: Push Homebrew tap landing page
-        env:
-          TAP_KEY: ${{ secrets.TAP_REPO_TOKEN }}
-        run: |
-          mkdir -p ~/.ssh
-          echo "$TAP_KEY" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null
-          git clone --quiet git@github.com:MungerWare/homebrew-packages.git tap
-          cp homebrew/index.html tap/index.html
-          cd tap
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git diff --cached --quiet && echo "No changes" && exit 0
-          git commit -m "Update tap landing page from Munger/packages"
-          git push
-
       - name: Prepare deploy
-        run: rm -f .gitignore && rm -rf homebrew
+        run: rm -f .gitignore
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
