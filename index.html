@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MungerWare APT Repository</title>
+<link rel="stylesheet" href="https://repos.mungerware.com/style.css?v=2">
+</head>
+<body>
+
+<div class="banner"><a href="https://github.com/Munger"><img src="https://repos.mungerware.com/logo.png" alt="MungerWare"></a></div>
+
+<div class="content">
+
+<p style="margin:12px 0 4px"><a href="https://repos.mungerware.com/">repos.mungerware.com</a> / APT</p>
+
+<h2>Setup</h2>
+
+<pre>curl -fsSL https://apt.mungerware.com/key.asc | sudo gpg --dearmor -o /usr/share/keyrings/munger.gpg
+echo "deb [signed-by=/usr/share/keyrings/munger.gpg] https://apt.mungerware.com/ noble main" | sudo tee /etc/apt/sources.list.d/munger.list
+sudo apt-get update
+sudo apt-get install mirror-dedupe</pre>
+
+<ul>
+  <li><a href="pool/">pool/</a> &mdash; package files (.deb)</li>
+  <li><a href="dists/">dists/</a> &mdash; APT metadata (Release, Packages)</li>
+  <li><a href="key.asc">key.asc</a> &mdash; GPG public key</li>
+</ul>
+
+<p><a href="https://github.com/MungerWare/apt-packages">Source repository</a></p>
+
+<hr>
+
+<p class="copyright">
+Copyright &copy; 2026 <a href="https://github.com/Munger">Tim Hosking</a>.
+<a href="https://repos.mungerware.com/LICENCE.html">MIT License</a>
+</p>
+
+</div>
+
+</body>
+</html>

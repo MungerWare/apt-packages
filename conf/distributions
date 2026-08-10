@@ -1,0 +1,15 @@
+Origin: MungerWare
+Label: MungerWare
+Codename: noble
+Architectures: amd64 arm64
+Components: main
+Description: MungerWare APT repository
+SignWith: munger@mungerware.com
+
+Origin: MungerWare
+Label: MungerWare
+Codename: resolute
+Architectures: amd64 arm64
+Components: main
+Description: MungerWare APT repository
+SignWith: munger@mungerware.com
