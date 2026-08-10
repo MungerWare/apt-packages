@@ -641,6 +641,22 @@ Description: MungerWare-packaged opencode, the open source AI coding agent
  Fork of https://github.com/anomalyco/opencode distributed via
  apt.mungerware.com. Includes the mDNS multi-interface fix.
 
+Package: opencode
+Architecture: amd64
+Version: 1.18.16-mw.1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Filename: pool/main/o/opencode/opencode_1.18.16-mw.1_amd64.deb
+Size: 46117890
+MD5sum: 0c104ab77358c0a27ab5c2516c53bd71
+SHA1: 113fe16b1bf4c75b35dda395654f527ca68f7446
+SHA256: a1af058643cbb0fed8c3fc966816cec87b22716706b60484afc0febe7fde66c3
+SHA512: 4eacba19ea6b7729f2c041ae03b2b815be187cf93966c2730d5cb68c8944dfb7e5378f3fefc5d4e077e9bcd8e53f243d9ebacc78f0356593cb9fea988df50fab
+Description: MungerWare-packaged opencode, the open source AI coding agent
+ Fork of https://github.com/anomalyco/opencode distributed via
+ apt.mungerware.com. Includes the mDNS multi-interface fix.
+
 Package: perccli
 Architecture: all
 Version: 007.1623.0000.0000-mw1
