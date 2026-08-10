@@ -30,7 +30,7 @@ jobs:
           for deb in /tmp/dispatch/*.deb; do
             mkdir -p "pool/main/$PREFIX/$PKG_NAME"
             cp "$deb" "pool/main/$PREFIX/$PKG_NAME/"
-            echo "Staged: $(basename $deb)"
+            echo "Staged: $(basename "$deb")"
           done
 
       - name: Install apt-ftparchive
@@ -79,7 +79,10 @@ jobs:
           done
 
       - name: Generate directory indexes
-        run: python3 scripts/generate-dir-indexes.py
+        uses: MungerWare/actions/.github/actions/generate-dir-indexes@main
+        with:
+          title: MungerWare APT Repository
+          skip: ""
 
       - name: Prepare deploy
         run: rm -f .gitignore
