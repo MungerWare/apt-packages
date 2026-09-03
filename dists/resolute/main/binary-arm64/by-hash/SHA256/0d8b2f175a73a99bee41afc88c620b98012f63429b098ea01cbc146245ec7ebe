@@ -1,0 +1,974 @@
+Package: dcism-osc
+Architecture: amd64
+Version: 7.3.0.0
+Priority: optional
+Section: OSC
+Maintainer: linux-poweredge@dell.com
+Filename: pool/main/d/dcism-osc/dcism-osc-7.3.1.0-153.ubuntu22.deb
+Size: 9943382
+MD5sum: 6b952765575fe7eaff872f10fe235162
+SHA1: 8827e2ffea75492319f83210b6bfc05d5b5f9432
+SHA256: 3c1914bd3c03ac9d170a56ba81bca30f58c237a3ae5a6c71e55a2d1b8174cc95
+SHA512: 7ec5277fae5f89c38a784a3728fce5c4b697307b9c9296c6306c11068b87b4895e5ce6ea11ce21799319b9d91eb1a683317750b9f7e08647bf3122ef0ca266fd
+Description: Dell iDRAC Service Module OS COLLECTOR is an integral component of the PowerEdge Embedded SupportAssist solution. OS COLLECTOR is designed to supplement the iDRAC hardware state and configuration data with the host's operating system state & configuration information data as well as the system event logs. The purpose of Embedded SupportAssist is to enable serviceability on the box without the need to install or configure additional software on the customers' host.
+
+Package: dcism
+Architecture: amd64
+Version: 5.3.1.0-3503.ubuntu22
+Priority: optional
+Section: iSM
+Maintainer: linux-poweredge@dell.com
+Installed-Size: 8679
+Depends: libcurl4, usbutils, dcism-osc
+Filename: pool/main/d/dcism/dcism-5.3.1.0-3503.ubuntu22.deb
+Size: 1461176
+MD5sum: dc50abf7d7d1c8f8cb60ff817d36f3d5
+SHA1: ae3c860ce15a3134eec2ac24bbd352e00ed34602
+SHA256: 262d28a43129ebeb0bc451a58a6c47a79e7230f5c902c396b1222011e881bcaf
+SHA512: 3b2eb1d7327099dcc2cb16614bb3bb4eb1bd642452e33834850404462e527891de6756d96b0be656745ec068c97daa52168ca1c00b09abbb9f5c7ec7f6bd87e6
+Homepage: http://www.dell.com/support/home/ag/en/agdhs1/product-support/product/idrac-service-module-v5.3.1.0/manuals
+Description: iDRAC Service Module (iSM) is a lightweight piece of software that runs on the Server and complements iDRAC with monitoring information from the OS. Installing the iDRAC Service Module is optional, though highly recommended. The Service Module does not expose any new interfaces of its own, rather it complements iDRAC with additional data that users can work with using iDRAC consoles such as the GUI, RACADM and WSMAN. Features monitored by the Service Module can individually be enabled/disabled to achieve a fine level of control in terms of resources consumed on the Server OS, and the unique integration needs of a customer environment.
+ Note: This release supports most 12th-generation through 15th-generation servers. Please consult OpenManage iDRAC Service module documentation for a list of supported systems.
+ .
+ Dell iDRAC Service Module
+
+Package: ipmifanctl
+Architecture: all
+Version: 1.0.0-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Depends: ipmitool
+Filename: pool/main/i/ipmifanctl/ipmifanctl_1.0.0-1_all.deb
+Size: 1074
+MD5sum: 1ad8532a03bedcd833856c6fb77a595a
+SHA1: 519e76bb9206421fe6f77b80e912233c0f829cd3
+SHA256: 191c1089ab38e5a3c246e61a522a8c7eaa19233eeb4e098e8e185dc4865b177e
+SHA512: 77d3b7ce4960d899c4db5d7ba7cafc160ca8739d9bfb55833a85c2bf6060abc5ff6dac9b2062e31110496053d55f976f49f0f284488411c971ad73fda256807b
+Description: Dell PowerEdge fan speed control via IPMI
+ Provides the ipmifanctl command for controlling fan speed on Dell
+ PowerEdge servers via ipmitool raw commands. Disables automatic
+ thermal management and sets fan to a specified percentage (5-100%).
+
+Package: mirror-dedupe
+Architecture: all
+Version: 0.2.11-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <tim@mungerware.com>
+Installed-Size: 190
+Depends: python3-yaml, python3:any, curl, rsync, gpg
+Filename: pool/main/m/mirror-dedupe/mirror-dedupe_0.2.11-1_all.deb
+Size: 41948
+MD5sum: 7280a53e85346c12b2aa9b2dfa0fa1be
+SHA1: 0a50dd47e67056e99460046d4bdd58d0d0fa5f80
+SHA256: 349d6b45d6d75eec44bc3cdab4dce0ae3e2ec0078b945a7353b8a34af49e1d7b
+SHA512: 61b49b3667d9835d031b3cbf1b8e5cd415d54b8edb692bc1eb562ef5f5200d532a692109eb36153e07c30782aa5072aaeedff5394d7986909c0d2b9c1ca933c6
+Homepage: https://github.com/munger/mirror-dedupe
+Description: Mirror synchronisation with intelligent deduplication
+ Downloads from upstream and hardlinks duplicate files (same SHA256 hash)
+ to save bandwidth and disk space. Supports multiple mirrors with global
+ deduplication across all mirrors.
+ .
+ Features:
+  - Uses curl for duplicate files, rsync for unique files and metadata
+  - Configurable via YAML files
+  - Systemd timer support for automated synchronisation
+
+Package: mirror-dedupe
+Architecture: all
+Version: 0.2.4-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <tim@mungerware.com>
+Installed-Size: 121
+Depends: python3-yaml, python3:any, curl, rsync
+Filename: pool/main/m/mirror-dedupe/mirror-dedupe_0.2.4-1_all.deb
+Size: 24160
+MD5sum: 6b3ec63bea0ee6d4d7e46ee71af5b7d4
+SHA1: e8c31038639371cb4914bc60d545e44185832040
+SHA256: 559397c37ac04a284513f5cdd698da425eed1cfe07df7f1509e6078042b3b795
+SHA512: e1a89c805e3f3524049545c2980dd3a27d3f0e21c805a59683e1e5a1f501a382b3b66c2cb703567657a4556b7e0d1860864e723a2b76b9622a08875d1dc8da77
+Homepage: https://github.com/munger/mirror-dedupe
+Description: Mirror synchronisation with intelligent deduplication
+ Downloads from upstream and hardlinks duplicate files (same SHA256 hash)
+ to save bandwidth and disk space. Supports multiple mirrors with global
+ deduplication across all mirrors.
+ .
+ Features:
+  - Uses curl for duplicate files, rsync for unique files and metadata
+  - Configurable via YAML files
+  - Systemd timer support for automated synchronisation
+
+Package: mirror-dedupe
+Architecture: all
+Version: 0.2.9-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <tim@mungerware.com>
+Installed-Size: 180
+Depends: python3-yaml, python3:any, curl, rsync, gpg
+Filename: pool/main/m/mirror-dedupe/mirror-dedupe_0.2.9-1_all.deb
+Size: 39538
+MD5sum: 69b7fbeea31585f972f566a39de4bfee
+SHA1: b83c5fd08836621aae23c3a713f4dc10dfe9b151
+SHA256: 92b1d9cb3afb0b8ca0becfe194d5363c8002009b1b7559f95242ec175cf7bcaf
+SHA512: 3a7bad2e1b963e5852be5eca4585563fa193bf862bcc58f4da8d332125fb01ccc5a1a305ca8c2194dad356c3d3989e22476aed95122f12c9f8cb9442c7252137
+Homepage: https://github.com/munger/mirror-dedupe
+Description: Mirror synchronisation with intelligent deduplication
+ Downloads from upstream and hardlinks duplicate files (same SHA256 hash)
+ to save bandwidth and disk space. Supports multiple mirrors with global
+ deduplication across all mirrors.
+ .
+ Features:
+  - Uses curl for duplicate files, rsync for unique files and metadata
+  - Configurable via YAML files
+  - Systemd timer support for automated synchronisation
+
+Package: mirror-dedupe
+Architecture: all
+Version: 1.0.1-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <tim@mungerware.com>
+Installed-Size: 264
+Depends: python3-yaml, python3:any, curl, gpg
+Filename: pool/main/m/mirror-dedupe/mirror-dedupe_1.0.1-1_all.deb
+Size: 49540
+MD5sum: d7045da5362fc57cda377a2b4a5a333e
+SHA1: 58cd70282d43951530d121edf43c9eaac104a838
+SHA256: b7878340a983c5dae7047b1f64f42c4875fffc2bfab786bedceed43da5f24cb6
+SHA512: c3c3d0df477e622543484c874913aa260f17a258053298ad8060f0bf4407c5ae2a7041de795291ba1e589505721ec69fe7f8469126fde2c6b7e2a35d37495c43
+Homepage: https://github.com/munger/mirror-dedupe
+Description: Mirror synchronisation with intelligent deduplication
+ Downloads from upstream and hardlinks duplicate files (same SHA256 hash)
+ to save bandwidth and disk space. Supports multiple mirrors with global
+ deduplication across all mirrors.
+ .
+ Features:
+  - Uses curl for all downloads
+  - Configurable via YAML files
+  - Systemd timer support for automated synchronisation
+
+Package: mirror-dedupe
+Architecture: all
+Version: 1.0.2-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <tim@mungerware.com>
+Installed-Size: 265
+Depends: python3-yaml, python3:any, curl, gpg
+Filename: pool/main/m/mirror-dedupe/mirror-dedupe_1.0.2-1_all.deb
+Size: 49900
+MD5sum: 16c0f38670236d6f3d3572eaf5e2bd81
+SHA1: 06347ed4187cc3a84df8c70c09c12a374c5311b7
+SHA256: 065ea283a9f8f4a26978754962ba3c68394b92171583dda58c18105305b0e1b6
+SHA512: 99f5d19349df5c442778aabaf6db11dba20406de193479780c044043faf9362658e3c8f6db5859a5eb8eb282d7e8e5ae075ad92a638afd53f6f724efcbdf49ba
+Homepage: https://github.com/munger/mirror-dedupe
+Description: Mirror synchronisation with intelligent deduplication
+ Downloads from upstream and hardlinks duplicate files (same SHA256 hash)
+ to save bandwidth and disk space. Supports multiple mirrors with global
+ deduplication across all mirrors.
+ .
+ Features:
+  - Uses curl for all downloads
+  - Configurable via YAML files
+  - Systemd timer support for automated synchronisation
+
+Package: mirror-dedupe
+Architecture: all
+Version: 1.1.0-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <tim@mungerware.com>
+Installed-Size: 733
+Depends: python3-yaml, python3:any, curl, gpg
+Filename: pool/main/m/mirror-dedupe/mirror-dedupe_1.1.0-1_all.deb
+Size: 126752
+MD5sum: e444d49b6cf21cb94ec67667ba6938d3
+SHA1: de0d9592f5e17a0e26f577ceb025e9fae7f28ab8
+SHA256: 6e27c3280bfe3e61760a1c5f0c6de8dc96806c03258b6f920f7d2b8611cd267f
+SHA512: 3687c8b429d401fcef088724ba616007d28859fcdcfc28c16c15dce996e27040545172190527cba330d92959ccbccc69874463078b328b0f74f404f5a3de18b1
+Homepage: https://github.com/munger/mirror-dedupe
+Description: Mirror synchronisation with intelligent deduplication
+ Downloads from upstream and hardlinks duplicate files (same SHA256 hash)
+ to save bandwidth and disk space. Supports multiple mirrors with global
+ deduplication across all mirrors.
+ .
+ Features:
+  - Uses curl for all downloads
+  - Configurable via YAML files
+  - Systemd timer support for automated synchronisation
+
+Package: mirror-dedupe
+Architecture: all
+Version: 1.1.1-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <tim@mungerware.com>
+Installed-Size: 755
+Depends: python3-yaml, python3:any, curl, gpg
+Filename: pool/main/m/mirror-dedupe/mirror-dedupe_1.1.1-1_all.deb
+Size: 133438
+MD5sum: 4a8ededc4820eb1b1d779d5c0eeccdf1
+SHA1: 6407254ab7cdb94ce3ab1b759bb4aec39d0fcdf1
+SHA256: 6b1a983cb428837a594b7bd5552393e0e9794c744760431d2e0f5c8ba5139c4c
+SHA512: 36311f384d77ed73c5bf03347d2a1d092048e64348331440e1b8d160c1587f7e8ae0d4bf8bd5c5f6754e8e719221c9a32434f02819001dd7597f96e96f805910
+Homepage: https://github.com/munger/mirror-dedupe
+Description: Mirror synchronisation with intelligent deduplication
+ Downloads from upstream and hardlinks duplicate files (same SHA256 hash)
+ to save bandwidth and disk space. Supports multiple mirrors with global
+ deduplication across all mirrors.
+ .
+ Features:
+  - Uses curl for all downloads
+  - Configurable via YAML files
+  - Systemd timer support for automated synchronisation
+
+Package: mirror-dedupe
+Architecture: all
+Version: 1.1.2-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <tim@mungerware.com>
+Installed-Size: 756
+Depends: python3-yaml, python3:any, curl, gpg
+Filename: pool/main/m/mirror-dedupe/mirror-dedupe_1.1.2-1_all.deb
+Size: 133560
+MD5sum: 8c7ea8b4336d9094745f31e8c622bfca
+SHA1: 361438d576936749c339305abf29a4222d64365e
+SHA256: e5f42fa83ffd52154ddef0d2660c81aa3bd1ac0a576ea63f9aef4985730f47d6
+SHA512: 6d4e82de80deb398370b13972e782fb2d96239cccacdeb767f0ec97972ad2113173b9747ae389e488677961833e51fdd37d600f2a79f853f58b0debd1887ab47
+Homepage: https://github.com/munger/mirror-dedupe
+Description: Mirror synchronisation with intelligent deduplication
+ Downloads from upstream and hardlinks duplicate files (same SHA256 hash)
+ to save bandwidth and disk space. Supports multiple mirrors with global
+ deduplication across all mirrors.
+ .
+ Features:
+  - Uses curl for all downloads
+  - Configurable via YAML files
+  - Systemd timer support for automated synchronisation
+
+Package: mirror-dedupe
+Architecture: all
+Version: 1.1.3-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <tim@mungerware.com>
+Installed-Size: 807
+Depends: python3-yaml, python3:any, curl, gpg
+Filename: pool/main/m/mirror-dedupe/mirror-dedupe_1.1.3-1_all.deb
+Size: 134274
+MD5sum: 602b11d0522e09055bd638f3aecce736
+SHA1: eab8926ac26309d13f198bd80a40aefc6e3d3476
+SHA256: 868a0946ec328aa5e7765033060ca73bc24da7afff7ba9c02058acb92079a7c8
+SHA512: 7aa8f0f751e1811bfd8edde28c686e45d01c09c57271ca22e2813e54711a0f1f1b04093016e6341c4a9ae2c219e0e2ee99e4b5e821718764f4f970b4f5f89ffa
+Homepage: https://github.com/munger/mirror-dedupe
+Description: Mirror synchronisation with intelligent deduplication
+ Downloads from upstream and hardlinks duplicate files (same SHA256 hash)
+ to save bandwidth and disk space. Supports multiple mirrors with global
+ deduplication across all mirrors.
+ .
+ Features:
+  - Uses curl for all downloads
+  - Configurable via YAML files
+  - Systemd timer support for automated synchronisation
+
+Package: mirror-dedupe
+Architecture: all
+Version: 1.1.4-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <tim@mungerware.com>
+Installed-Size: 806
+Depends: python3-yaml, python3:any, curl, gpg
+Filename: pool/main/m/mirror-dedupe/mirror-dedupe_1.1.4-1_all.deb
+Size: 134200
+MD5sum: 1883824cf1223b3d04bfb90d3451918f
+SHA1: 1ef33eae775fbaddfb98831b1e75531e19268013
+SHA256: 129deb237fdc471d0aa2da3a2e7b7ca1adcf36e0421abaa8dd8c6c4a8b468db3
+SHA512: 77c4dd9afaca37b3f405226d8d72bf2fbd8900e82163c8590b18e4026ee19f3680195c7a05a568b4624b03afd3a15fc7065e059485768797c9ac6ae54f82b36e
+Homepage: https://github.com/munger/mirror-dedupe
+Description: Mirror synchronisation with intelligent deduplication
+ Downloads from upstream and hardlinks duplicate files (same SHA256 hash)
+ to save bandwidth and disk space. Supports multiple mirrors with global
+ deduplication across all mirrors.
+ .
+ Features:
+  - Uses curl for all downloads
+  - Configurable via YAML files
+  - Systemd timer support for automated synchronisation
+
+Package: mirror-dedupe
+Architecture: all
+Version: 1.2.0-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <tim@mungerware.com>
+Installed-Size: 820
+Depends: python3-yaml, python3:any, curl, gpg
+Filename: pool/main/m/mirror-dedupe/mirror-dedupe_1.2.0-1_all.deb
+Size: 135524
+MD5sum: 454b227d7f37c84989aec83a6614f557
+SHA1: 08f098e6671ad4acc51920cb728b0a13b150d713
+SHA256: ec415c8d9c85e4f0dff3c86587cd8e304df2819331c131d30756288f7697abb1
+SHA512: 7d0c58e62e65d58fb6b4e998ac5c88f1c670a60067093c6cb1b48dacae88b645c590c59f5cbaff1b2409dba98d82b1077a03f8ff9b23fec7a2aead939101f46e
+Homepage: https://github.com/munger/mirror-dedupe
+Description: Mirror synchronisation with intelligent deduplication
+ Downloads from upstream and hardlinks duplicate files (same SHA256 hash)
+ to save bandwidth and disk space. Supports multiple mirrors with global
+ deduplication across all mirrors.
+ .
+ Features:
+  - Uses curl for all downloads
+  - Configurable via YAML files
+  - Systemd timer support for automated synchronisation
+
+Package: mirror-dedupe
+Architecture: all
+Version: 1.2.1-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <tim@mungerware.com>
+Installed-Size: 822
+Depends: python3-yaml, python3:any, curl, gpg
+Filename: pool/main/m/mirror-dedupe/mirror-dedupe_1.2.1-1_all.deb
+Size: 136098
+MD5sum: f88141c488af694ed3ba00d66219cd7a
+SHA1: 4b25f06b040f2c69ba15815a2db28d21b141bf6b
+SHA256: 27a7ec3da896718787bc3b531c3f2a8dd935c1a5245914b911306c555f74703c
+SHA512: b15739109afb9affe5976de578922a1109f08cf3644cc811f3b6835b9c109d8e2a87b5b5ebf206a0d3293ea4130e157789e2320699d523750f197cb0d41d0e8b
+Homepage: https://github.com/munger/mirror-dedupe
+Description: Mirror synchronisation with intelligent deduplication
+ Downloads from upstream and hardlinks duplicate files (same SHA256 hash)
+ to save bandwidth and disk space. Supports multiple mirrors with global
+ deduplication across all mirrors.
+ .
+ Features:
+  - Uses curl for all downloads
+  - Configurable via YAML files
+  - Systemd timer support for automated synchronisation
+
+Package: mirror-dedupe
+Architecture: all
+Version: 1.2.2-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <tim@mungerware.com>
+Installed-Size: 837
+Depends: python3-yaml, python3:any, curl, gpg
+Filename: pool/main/m/mirror-dedupe/mirror-dedupe_1.2.2-1_all.deb
+Size: 140134
+MD5sum: 0da9ef18bb1d8071dc149a2e979fb320
+SHA1: 8590ad2de53de74a4761d52243a53358ec8fc138
+SHA256: b1dd9ff3c273f9c3dc555f40fbf53e6db7b1591f94d71a4b3097d3b4477d6c6c
+SHA512: ca01597afdc0eb7951bce532b024b1fdba4c548b7de12bb871a86189a545fbf75385bf3b62da5d415deb55654afab92b0ff01b96423c11a5a29dff7cbc81ce27
+Homepage: https://github.com/munger/mirror-dedupe
+Description: Mirror synchronisation with intelligent deduplication
+ Downloads from upstream and hardlinks duplicate files (same SHA256 hash)
+ to save bandwidth and disk space. Supports multiple mirrors with global
+ deduplication across all mirrors.
+ .
+ Features:
+  - Uses curl for all downloads
+  - Configurable via YAML files
+  - Systemd timer support for automated synchronisation
+
+Package: mirror-dedupe
+Architecture: all
+Version: 1.2.3-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <tim@mungerware.com>
+Installed-Size: 840
+Depends: python3-yaml, python3:any, curl, gpg
+Filename: pool/main/m/mirror-dedupe/mirror-dedupe_1.2.3-1_all.deb
+Size: 140684
+MD5sum: 8020558702d71cda91b7352f942c2945
+SHA1: 215066e7c24ae0e7f3c8724cd580980f47897ae1
+SHA256: bab6f809f1f60e5de33136ca935ee8bf4b38150f96da67dbc869ffa88dc31ea5
+SHA512: f365a1284e5b58abe78bee3427a47b4846b7b85320d1c729cf1e1cd297801248e41abad713f1a1114e6e45373d76b6c62629c2de12695954e32bbe89a7f1487e
+Homepage: https://github.com/munger/mirror-dedupe
+Description: Mirror synchronisation with intelligent deduplication
+ Downloads from upstream and hardlinks duplicate files (same SHA256 hash)
+ to save bandwidth and disk space. Supports multiple mirrors with global
+ deduplication across all mirrors.
+ .
+ Features:
+  - Uses curl for all downloads
+  - Configurable via YAML files
+  - Systemd timer support for automated synchronisation
+
+Package: mirror-dedupe
+Architecture: all
+Version: 1.2.4-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <tim@mungerware.com>
+Installed-Size: 841
+Depends: python3-yaml, python3:any, curl, gpg
+Filename: pool/main/m/mirror-dedupe/mirror-dedupe_1.2.4-1_all.deb
+Size: 141298
+MD5sum: c1647df66fd5ef2e38b613992d1b7ab8
+SHA1: 287178936498d1670645ffc781f7f5501ea09698
+SHA256: 4ffd293290cfd8fbd038d94c24fdcf9d3e1c42654f3aee054b48a0f314075be4
+SHA512: 190ca55204b54ca6e31b5901d25d7d79d27c806112825f4b22e5ce3fe2c08f134147f0be710b69c85ccf6aec55b6a7959eb898587f5fd8cc81ead23ec7b36251
+Homepage: https://github.com/munger/mirror-dedupe
+Description: Mirror synchronisation with intelligent deduplication
+ Downloads from upstream and hardlinks duplicate files (same SHA256 hash)
+ to save bandwidth and disk space. Supports multiple mirrors with global
+ deduplication across all mirrors.
+ .
+ Features:
+  - Uses curl for all downloads
+  - Configurable via YAML files
+  - Systemd timer support for automated synchronisation
+
+Package: mirror-dedupe
+Architecture: all
+Version: 1.2.5-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <tim@mungerware.com>
+Installed-Size: 843
+Depends: python3-yaml, python3:any, curl, gpg
+Filename: pool/main/m/mirror-dedupe/mirror-dedupe_1.2.5-1_all.deb
+Size: 142766
+MD5sum: f80dce3b3bfd5b420442488ba5f93718
+SHA1: 811c73c0086133ac22609913ebe092b204cb4df7
+SHA256: fe4ea87661d112f500e4e675dba9ff9481adfab91ed4da82eff5e4fb69cf776e
+SHA512: bbb0db19f7f0b0475b82bf4ce55bc69c4e952da939c52390a2382a5ccd6a37cb3f18b1e24ea61b041045afb99486c4295f2b8e10873a9513910c911cd6f7da6b
+Homepage: https://github.com/munger/mirror-dedupe
+Description: Mirror synchronisation with intelligent deduplication
+ Downloads from upstream and hardlinks duplicate files (same SHA256 hash)
+ to save bandwidth and disk space. Supports multiple mirrors with global
+ deduplication across all mirrors.
+ .
+ Features:
+  - Uses curl for all downloads
+  - Configurable via YAML files
+  - Systemd timer support for automated synchronisation
+
+Package: mirror-dedupe
+Architecture: all
+Version: 1.2.6-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <tim@mungerware.com>
+Installed-Size: 844
+Depends: python3-yaml, python3:any, curl, gpg
+Filename: pool/main/m/mirror-dedupe/mirror-dedupe_1.2.6-1_all.deb
+Size: 143104
+MD5sum: 3b9edc04c19e7a99dbd728e2b1801123
+SHA1: 4cd7649708b377d640c544bbaa2966e2286a8295
+SHA256: 8de19d7e979fd25d409a94fe3b993771e93a88a7c4b11a98e85480a5481642ef
+SHA512: eca5744f0fd1fe15564896d7fe450480b476222b0827b736d0924ed1878d31104468c1c120f081f74449dafe50bbd41e741eafd61a0eee3069a2fbea61d72f94
+Homepage: https://github.com/munger/mirror-dedupe
+Description: Mirror synchronisation with intelligent deduplication
+ Downloads from upstream and hardlinks duplicate files (same SHA256 hash)
+ to save bandwidth and disk space. Supports multiple mirrors with global
+ deduplication across all mirrors.
+ .
+ Features:
+  - Uses curl for all downloads
+  - Configurable via YAML files
+  - Systemd timer support for automated synchronisation
+
+Package: mw-pxeboot
+Architecture: all
+Version: 1.0.0-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Depends: ipmitool, efibootmgr
+Filename: pool/main/m/mw-pxeboot/mw-pxeboot_1.0.0-1_all.deb
+Size: 1122
+MD5sum: df7c108f98a5aaf481d395462f1a7800
+SHA1: 274add92a5e96c92ec789b33e1901a692cadfde3
+SHA256: edb44b95c90f6837d1e75e43da615fa6830a6c3e12560fa218b1bec460331036
+SHA512: 52058e1d58f85c11fa2ca2b38129fea301c5090b66186ca59255ad5b5c9e1b5d4017b248ffe605334b744e5705a8e70db75e07094822733664b663f65b454974
+Description: Set next boot to PXE and reboot
+ Provides the pxeboot command for setting a server's next boot
+ to PXE via ipmitool (Dell/iDRAC) or efibootmgr (UEFI systems).
+
+Package: mw-pxeboot
+Architecture: all
+Version: 1.0.0-2
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Depends: ipmitool, efibootmgr
+Filename: pool/main/m/mw-pxeboot/mw-pxeboot_1.0.0-2_all.deb
+Size: 1244
+MD5sum: 0fb84cd165a28c4a005f4da1d5139467
+SHA1: b6e31fc079487ad356d57323c5100029c6a69152
+SHA256: 6f95cd2767ac9508409890ebd1f2e05da36734e8887ed9b499b6c3c9f17685fb
+SHA512: 842e108ef4a51b5572753f11a1e8a4bb276350168de4457b92011489b309450980478e8f831cfc062b5faf34da3ff3be32d64886fc400bb8dc6b4cf48a648865
+Description: Set next boot to PXE and reboot
+ Provides the mw-pxeboot command for setting a server's next boot
+ to PXE via ipmitool (Dell/iDRAC) or efibootmgr (UEFI systems).
+
+Package: mw-pxeboot
+Architecture: all
+Version: 1.1.0-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Depends: ipmitool, efibootmgr
+Filename: pool/main/m/mw-pxeboot/mw-pxeboot_1.1.0-1_all.deb
+Size: 2414
+MD5sum: a235040dd98ca6c8b3782ca7e4adc5c8
+SHA1: e4fbc55664e5a90f768898037359a3a1c750114b
+SHA256: 60a16399516241224ad2aa20a7579955094796fe602e8c89759c0b628784e270
+SHA512: 71754dc00792b91c8762a36737c7d2e1a3fca43b54525707a1abf1d9b73493ca83c7027e53f51f7d61e84d03fc3c16417405d08f105e211bc21aa76343f530c9
+Description: Set next boot to PXE and reboot
+ Provides the mw-pxeboot command for setting a server's next boot
+ to PXE via ipmitool (Dell/iDRAC) or efibootmgr (UEFI systems).
+
+Package: mw-pxeboot
+Architecture: all
+Version: 1.1.2-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Depends: ipmitool, efibootmgr
+Filename: pool/main/m/mw-pxeboot/mw-pxeboot_1.1.2-1_all.deb
+Size: 2634
+MD5sum: 4dfa65311ca7d6c680d6b9188e24816b
+SHA1: 7c44d9262228e14abdaaf74bc817b67578c88d40
+SHA256: aeb6274fca8b581c9cc5c6ab7da0df2d5d3a3d966b0e54b436fac1fe5bde9d44
+SHA512: 3cc7c58ee7263a887d320630f674849fc4a46e46edf66f292878a11337ccb74c30392f8162b8c22940c48b2af9ebb8892a2a6c4674380d4c44f462be7369655e
+Description: Set next boot to PXE and reboot
+ Provides the mw-pxeboot command for setting a server's next boot
+ to PXE via ipmitool (Dell/iDRAC) or efibootmgr (UEFI systems).
+
+Package: mw-pxeboot
+Architecture: all
+Version: 1.2.0-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Depends: ipmitool, efibootmgr
+Filename: pool/main/m/mw-pxeboot/mw-pxeboot_1.2.0-1_all.deb
+Size: 2984
+MD5sum: 9ba08a569ebed994263d4e5bf91b50f6
+SHA1: cfd2781f41be4d4dcb91f2bb9cddbd21ec6f9e05
+SHA256: 60580721eae213c4ad1e40ef753959479512b8b3ef29704e10450be842e9ad18
+SHA512: 3cfa561b5cab241bee68d68fbf59fa0f5e3409016a7998ef8a9b5f2a2dd74a43e372a22e8462890e17ca1e5dfc1beb888563b6b0666f04cb3a8e077d3a46d6a3
+Description: Set next boot to PXE and reboot
+ Provides the mw-pxeboot command for setting a server's next boot
+ to PXE via ipmitool (Dell/iDRAC) or efibootmgr (UEFI systems).
+
+Package: ocsessnotify
+Architecture: all
+Version: 1.0.0-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Depends: avahi-daemon, avahi-utils, curl, jq
+Filename: pool/main/o/ocsessnotify/ocsessnotify_1.0.0-1_all.deb
+Size: 3358
+MD5sum: fe09f5632aea52e00fd0ac03cb3ef477
+SHA1: fda78a6947169d7906722a9d4bef1ae227050fb1
+SHA256: c58a365d1053365e3d46aaa3499358d667aab513862df38bdecbd180e967b522
+SHA512: cdc9d8e6c5d2b162e085f2e39abe17e25898a9330281fdc3140afd53295b98a545ee41a096d92359d289cee87f254f2933168f00577aeba025efa18d4235c8ff
+Description: Post a message to the most recent opencode session
+ Provides the ocsessnotify command for sending a message to the most
+ recently active opencode session, discovered on the LAN via mDNS.
+ Supports targeting a specific server port and/or session ID.
+
+Package: ocsessnotify
+Architecture: all
+Version: 1.0.1-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Depends: avahi-daemon, avahi-utils, curl, jq
+Filename: pool/main/o/ocsessnotify/ocsessnotify_1.0.1-1_all.deb
+Size: 3628
+MD5sum: 898645ffaa4e9e1d167573adf13ef254
+SHA1: 32178d2afd96da0259d9e5c7038c0edde947d2dc
+SHA256: c336818f3c22a2eea62cb2aabb9b6944d78e60e827e3ee970fd306e28e3ffa7d
+SHA512: 53ee367930828892d94585c1b2bf28a541d167d167f0f9dac5ee75a10bfc98ad0bcb2b36761e0120dcec0be72fb5b8b5d21708506f3926223685828280df3f43
+Description: Post a message to the most recent opencode session
+ Provides the ocsessnotify command for sending a message to the most
+ recently active opencode session, discovered on the LAN via mDNS.
+ Supports targeting a specific server port and/or session ID.
+
+Package: ocsessnotify
+Architecture: all
+Version: 1.0.2-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Depends: avahi-daemon, avahi-utils, curl, jq
+Filename: pool/main/o/ocsessnotify/ocsessnotify_1.0.2-1_all.deb
+Size: 3832
+MD5sum: 6ba73d0215f0cc9933a01d2641534daf
+SHA1: 8f0edfe0db58ec85af14f5aaef6e146b01594a30
+SHA256: 7c177ceb4dfdad7d3ece5fdff537e6c7fc011b2745976fa4b441eb2ab7599a70
+SHA512: a3d1ef7b38d1d468b92c40edb5fcf18cae6f1a3fbea1707434bb9dc7f3999d999aa96fb2b8df25b93c0eb9c1db86af901888892fe4874326d5ecb169b65d7900
+Description: Post a message to the most recent opencode session
+ Provides the ocsessnotify command for sending a message to the most
+ recently active opencode session, discovered on the LAN via mDNS.
+ Supports targeting a specific server port and/or session ID.
+
+Package: ocsessnotify
+Architecture: all
+Version: 1.0.3-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Depends: avahi-daemon, avahi-utils, curl, jq
+Filename: pool/main/o/ocsessnotify/ocsessnotify_1.0.3-1_all.deb
+Size: 3746
+MD5sum: 580a3be0fce403d64bd1564a7c9cbffe
+SHA1: 89e98d835f292b45db2633fd4003fbaad5fba35e
+SHA256: dc83c82696a552869eed407d751e45d9eaf42284f212b7aa48ee98c81075efe3
+SHA512: 080fa86393da3adae80cbeda6661870d2b7947ee280db7e130619d0e25770f00711042d4139c02362b87d79e33e8544113d673d38d816cdf434110e77c78510c
+Description: Post a message to the most recent opencode session
+ Provides the ocsessnotify command for sending a message to the most
+ recently active opencode session, discovered on the LAN via mDNS.
+ Supports targeting a specific server port and/or session ID.
+
+Package: ocsessnotify
+Architecture: all
+Version: 1.0.4-1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Depends: avahi-daemon, avahi-utils, curl, jq
+Filename: pool/main/o/ocsessnotify/ocsessnotify_1.0.4-1_all.deb
+Size: 4962
+MD5sum: b84c08d2db7b1c1af50bdb7f0d5984f2
+SHA1: f1fd0c882598480c4ed121223864a4374e1b97ce
+SHA256: facb200bf27e8d89a7c91660a8ffe0c7401a469f9bf88027e577d8421ca68ff2
+SHA512: 227f26726525fbaf5d7b3ffc4740a1bada871cb57a97c69f94b25207963c409aa64fb69c12dce52ed06e1a024cdb6252967a911e986d4bf31b66baf90015882e
+Description: Post a message to the most recent opencode session
+ Provides the ocsessnotify command for sending a message to the most
+ recently active opencode session, discovered on the LAN via mDNS.
+ Supports targeting a specific server port and/or session ID.
+
+Package: opencode
+Architecture: amd64
+Version: 1.18.10-mw.1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Filename: pool/main/o/opencode/opencode_1.18.10-mw.1_amd64.deb
+Size: 46170284
+MD5sum: d500dea8a892f5c396898eb239557894
+SHA1: 0de7fecccfeb03a0872c65a325985b440f6449a1
+SHA256: b2fecc835be4868eaa0e6b2cc097a92539827c13c77c8fe488a53f36d96ebbf3
+SHA512: cc5b283b86747122ba48e25575dc71f1096589adf3e04cf4396fa9250b9eaa8b11cf548dc2b068cb81c07ca1456bfc898b999195d87377697cd3fc89c510421a
+Description: MungerWare-packaged opencode, the open source AI coding agent
+ Fork of https://github.com/anomalyco/opencode distributed via
+ apt.mungerware.com. Includes the mDNS multi-interface fix.
+
+Package: opencode
+Architecture: amd64
+Version: 1.18.11-mw.1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Filename: pool/main/o/opencode/opencode_1.18.11-mw.1_amd64.deb
+Size: 46166762
+MD5sum: 734fa65f35356a6efaadae892d3d6ac9
+SHA1: 34eabb80ea4d95523d53cc140cb08569af63f6cb
+SHA256: 46d12502f8cbd423ce5e52c4fb842efb2d6b72daf8e55b37e82c80755a2aec91
+SHA512: 7624c2c6a627d372b552b9faeab817506c453311253a8d63aa2d57c011777d0d64c9f1d3d773c913d1bc30f9173ae99928606fcf12ccb61814eae20dfcb09efa
+Description: MungerWare-packaged opencode, the open source AI coding agent
+ Fork of https://github.com/anomalyco/opencode distributed via
+ apt.mungerware.com. Includes the mDNS multi-interface fix.
+
+Package: opencode
+Architecture: amd64
+Version: 1.18.12-mw.1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Filename: pool/main/o/opencode/opencode_1.18.12-mw.1_amd64.deb
+Size: 46134028
+MD5sum: 11edbc37e4a483b5cb73b020394bce95
+SHA1: c226383489e03971148eb122710960c4b6ddadec
+SHA256: 4c91ab434990babc61702df5237f26c21d0cd180d4c148555fcfc5dcd3e68328
+SHA512: 462f6cab8a199896e33352f856af84a15c7004727b275ce299cd40b9a5c3a3e9dbe0fa385ca5c71d783a1e82a517140ae8e6e8bde1ec8d373c7c0568c49cb00a
+Description: MungerWare-packaged opencode, the open source AI coding agent
+ Fork of https://github.com/anomalyco/opencode distributed via
+ apt.mungerware.com. Includes the mDNS multi-interface fix.
+
+Package: opencode
+Architecture: amd64
+Version: 1.18.13-mw.1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Filename: pool/main/o/opencode/opencode_1.18.13-mw.1_amd64.deb
+Size: 46118846
+MD5sum: 405d43e92b3ea976b0b0f9ab4c0fb1d4
+SHA1: c233858b06da2f67e8f5d59b5a6600ebd5c94bd0
+SHA256: b2e5046565871bd5034714ad0a12507aedf8d257807be0f2184a8dd5bf027333
+SHA512: c8d168ebb3d35593c7cc1daedf202afc756fd4f7922bb2a7b49953dd7ab88ddb04ba298b3d03b3d28845b5625e794b395a447b14f3413f419d55b18ec03fccb2
+Description: MungerWare-packaged opencode, the open source AI coding agent
+ Fork of https://github.com/anomalyco/opencode distributed via
+ apt.mungerware.com. Includes the mDNS multi-interface fix.
+
+Package: opencode
+Architecture: amd64
+Version: 1.18.14-mw.1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Filename: pool/main/o/opencode/opencode_1.18.14-mw.1_amd64.deb
+Size: 46120532
+MD5sum: 72085999cd21405c7bf1153a68b4e53e
+SHA1: 2a9226d0484ef83c280e183bfc0976a21d7ad2a2
+SHA256: b7e74157c0a207b8b028c5a8ca9e66724dfab42ec23f1ac2261e692dfd230290
+SHA512: b1c5809d8a69d5bc19cfeeaa903146fc62fcdd559a833f850ba0796cdbbe886f776a1d47df469e2e8842f68b4cfd4422461b6c90594cf4c9d39cbdb270e77f88
+Description: MungerWare-packaged opencode, the open source AI coding agent
+ Fork of https://github.com/anomalyco/opencode distributed via
+ apt.mungerware.com. Includes the mDNS multi-interface fix.
+
+Package: opencode
+Architecture: amd64
+Version: 1.18.15-mw.1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Filename: pool/main/o/opencode/opencode_1.18.15-mw.1_amd64.deb
+Size: 46117550
+MD5sum: 3fe53c474b3ae40c0becf4b8e3784b46
+SHA1: 0376c999a5ced9043879ec711c95f3fbe7476c2b
+SHA256: 32b037be463d51c0268c11cc4470f57d27be25fd232a6e086420bfa08aedb58d
+SHA512: 0a9344117444fa4f107fd8a92315734c72a2a73be3226a343b8b9dd3ff39377d4103fa9316d400d418839eef6515b8d2763200420bcf11468913b93103dd8baf
+Description: MungerWare-packaged opencode, the open source AI coding agent
+ Fork of https://github.com/anomalyco/opencode distributed via
+ apt.mungerware.com. Includes the mDNS multi-interface fix.
+
+Package: opencode
+Architecture: amd64
+Version: 1.18.16-mw.1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Filename: pool/main/o/opencode/opencode_1.18.16-mw.1_amd64.deb
+Size: 46117890
+MD5sum: 0c104ab77358c0a27ab5c2516c53bd71
+SHA1: 113fe16b1bf4c75b35dda395654f527ca68f7446
+SHA256: a1af058643cbb0fed8c3fc966816cec87b22716706b60484afc0febe7fde66c3
+SHA512: 4eacba19ea6b7729f2c041ae03b2b815be187cf93966c2730d5cb68c8944dfb7e5378f3fefc5d4e077e9bcd8e53f243d9ebacc78f0356593cb9fea988df50fab
+Description: MungerWare-packaged opencode, the open source AI coding agent
+ Fork of https://github.com/anomalyco/opencode distributed via
+ apt.mungerware.com. Includes the mDNS multi-interface fix.
+
+Package: opencode
+Architecture: amd64
+Version: 1.18.17-mw.1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Filename: pool/main/o/opencode/opencode_1.18.17-mw.1_amd64.deb
+Size: 46139562
+MD5sum: 8facbd746bc493a605e7c2acb180033a
+SHA1: 4f528dadbee382a9864fe6b98628fb2ffd4e21de
+SHA256: e3111141ffb3ee14745f3864f8d3fc402397e3379c729ad30d2a3962087b3f23
+SHA512: 9f0b46cd6d357bf2509fc553fc8bdbf5b4ef405f8abd8ef25018e90615a4f4c1faf8670897bcb57b10ae7c06ac702ec60ceb1f715c4b9ac412f1ab559beebf87
+Description: MungerWare-packaged opencode, the open source AI coding agent
+ Fork of https://github.com/anomalyco/opencode distributed via
+ apt.mungerware.com. Includes the mDNS multi-interface fix.
+
+Package: opencode
+Architecture: amd64
+Version: 1.18.18-mw.1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Filename: pool/main/o/opencode/opencode_1.18.18-mw.1_amd64.deb
+Size: 46139640
+MD5sum: 68debcd4416789071d3128e001042488
+SHA1: 9cd3ae9c8c9a61e40e5c840d1fa7a6833ea0aeab
+SHA256: 1a6e099446cccd12f19caeb3651053a99abc7c5ee4ed31f3429c95e7b401c972
+SHA512: 023dc7981ff0d0f49b4654ad7985c9c6471ebe611506d0e7fba3a1dd6d7661ce80801505b68ffe1040c19465aa69419632612e80ee69bd7fd2050b81bf0e64b0
+Description: MungerWare-packaged opencode, the open source AI coding agent
+ Fork of https://github.com/anomalyco/opencode distributed via
+ apt.mungerware.com. Includes the mDNS multi-interface fix.
+
+Package: opencode
+Architecture: amd64
+Version: 1.18.19-mw.1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Filename: pool/main/o/opencode/opencode_1.18.19-mw.1_amd64.deb
+Size: 46186368
+MD5sum: d1759d95bba44e3c82ea7a496da8d6d6
+SHA1: aa7558d49e7acd989ca59feddc6ac501aa7edad4
+SHA256: e8f704c4a50756809d8d3fb95bc61fa679eb7569d7c0800ad43fdf748cb30fe3
+SHA512: e2bc4f6ec15316aad68c7a246457c072d0434b086b4a2038c7887c73a06ffd5acb424ddb4679fde32b32c9534c48252a7f0a36d5943df5fc527673720892b699
+Description: MungerWare-packaged opencode, the open source AI coding agent
+ Fork of https://github.com/anomalyco/opencode distributed via
+ apt.mungerware.com. Includes the mDNS multi-interface fix.
+
+Package: opencode
+Architecture: amd64
+Version: 1.18.20-mw.1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Filename: pool/main/o/opencode/opencode_1.18.20-mw.1_amd64.deb
+Size: 46188872
+MD5sum: 7d8f05882af80fe7deddf07594792b83
+SHA1: 4b0880aa3a4d2494487fa86186cd9112d0fe513c
+SHA256: 0391d6f5ee810c4046192e5528432660d54bdde75ae2a9e6779c66dc88947f4f
+SHA512: 1f27b24e5a8a923fcd302df86fc0db740e9d2b37eea32b95ea634852d86ec793b058fcfa4d0cda97b35c4ee5a364761d9acb7e09327c7ecb5bc0607ca7c4e14e
+Description: MungerWare-packaged opencode, the open source AI coding agent
+ Fork of https://github.com/anomalyco/opencode distributed via
+ apt.mungerware.com. Includes the mDNS multi-interface fix.
+
+Package: opencode
+Architecture: amd64
+Version: 1.18.21-mw.1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Filename: pool/main/o/opencode/opencode_1.18.21-mw.1_amd64.deb
+Size: 46182042
+MD5sum: 9d0bc22a020ccb74dd571c5c9151ae36
+SHA1: c88a2feaf68eff1c22b2a5c3cc9963ed81ced307
+SHA256: 11bcff953541163ce3e6b222030cb83323ff7b49dcd196b4ce926fbf5265f0ba
+SHA512: e491bef0a8558664fc4f73c11fe31af8f2a541c5a008e29017f1925cd37da5504f81329bcf1954a2ac441ffa214db7656c8007348a76613ac1ba6d62f5928a61
+Description: MungerWare-packaged opencode, the open source AI coding agent
+ Fork of https://github.com/anomalyco/opencode distributed via
+ apt.mungerware.com. Includes the mDNS multi-interface fix.
+
+Package: opencode
+Architecture: amd64
+Version: 1.18.22-mw.1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Filename: pool/main/o/opencode/opencode_1.18.22-mw.1_amd64.deb
+Size: 46188218
+MD5sum: f541259a8c4b336e411685a4f71c3d7b
+SHA1: a2cbfbb9cf89db9f8aa21fba352410226ce18b58
+SHA256: 7de6832bc23d7f09ccf80f207c6941f9ec37386742200dd60fb88accc5a6e0f9
+SHA512: 8bd46b2f3fcbf5fdaac68d31d56fce9e21e517a6340efaceacdce1ac83e8c168d85dc62c3c7897a131132795694d630ce8aafc9213688b50eeaa0c658d90b295
+Description: MungerWare-packaged opencode, the open source AI coding agent
+ Fork of https://github.com/anomalyco/opencode distributed via
+ apt.mungerware.com. Includes the mDNS multi-interface fix.
+
+Package: opencode
+Architecture: amd64
+Version: 1.18.23-mw.1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Filename: pool/main/o/opencode/opencode_1.18.23-mw.1_amd64.deb
+Size: 46187906
+MD5sum: 75a95e33e5ef76bfab13e441abf8a422
+SHA1: 3495e3eb4f8e52814ea66bbae2b386151e563dae
+SHA256: 64a09244023579043586fb6251a6c138d1d254ecdd97f4938b43c15c3d65a8c3
+SHA512: c132693a5ff2e2e54fba0d8906736b6b779700f8d6722b479ad14f14bb9b09f6c9b5493998ced680ddad6fd10f1b052acc81fbc91d845bd3aea6c4a9ab73ed1c
+Description: MungerWare-packaged opencode, the open source AI coding agent
+ Fork of https://github.com/anomalyco/opencode distributed via
+ apt.mungerware.com. Includes the mDNS multi-interface fix.
+
+Package: opencode
+Architecture: amd64
+Version: 1.18.24-mw.1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Filename: pool/main/o/opencode/opencode_1.18.24-mw.1_amd64.deb
+Size: 46198590
+MD5sum: 69184ed30ed979d27b435b63ab58daa7
+SHA1: f4cc2aba3da60fc4b6e733d03b0f04a75d133965
+SHA256: 73dafd6bb53d40e61fcb85c96f5c5ac8456f139853fe093a105ea0adeec079a3
+SHA512: cf7e7f03209b0abe43378eb098c3be7d149b62c3ec06ef72ba2df60ec68297f7f2e02393f1594cc31fefb262368dd34a0bc68f2cd9bb98ad1567a96cf6ed9435
+Description: MungerWare-packaged opencode, the open source AI coding agent
+ Fork of https://github.com/anomalyco/opencode distributed via
+ apt.mungerware.com. Includes the mDNS multi-interface fix.
+
+Package: opencode
+Architecture: amd64
+Version: 1.18.25-mw.1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Filename: pool/main/o/opencode/opencode_1.18.25-mw.1_amd64.deb
+Size: 46197280
+MD5sum: 9e9437af1ad6a905e9ed50559f1b1330
+SHA1: cfa6b5d2c741af83723c79fcf086ffa40a993bbb
+SHA256: a7e7d23150e225e4da73df273fa12950c338451f530ce710bcb7d7a13a70f244
+SHA512: 5c6831980f265114bbbcf1f9202d533b2a79c34f9a4588523b1b195ebcc0526d0f93130d44cd1de30c78e53626e3d1ebfb63213732963c7759cbbe5ed09d2b48
+Description: MungerWare-packaged opencode, the open source AI coding agent
+ Fork of https://github.com/anomalyco/opencode distributed via
+ apt.mungerware.com. Includes the mDNS multi-interface fix.
+
+Package: opencode
+Architecture: amd64
+Version: 1.18.26-mw.1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Filename: pool/main/o/opencode/opencode_1.18.26-mw.1_amd64.deb
+Size: 46196794
+MD5sum: 668f48fec9d6ee6cb1b12638d8d2599e
+SHA1: 8c9f11a6e5d86f37267e93206845e7bbb3792159
+SHA256: 6b9bcb636a8690b423723fbc7a8b91678415590286def9389de3574c63494fc0
+SHA512: ace7291db9dce2b18840ed0382fb3cac730aaa0c1ba69f2625169720ced29d10428ba1d8e12dfe9c7e04c2d325727f97e77264301879086ab3bd49c6b4b66ba3
+Description: MungerWare-packaged opencode, the open source AI coding agent
+ Fork of https://github.com/anomalyco/opencode distributed via
+ apt.mungerware.com. Includes the mDNS multi-interface fix.
+
+Package: opencode
+Architecture: amd64
+Version: 1.18.27-mw.1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Filename: pool/main/o/opencode/opencode_1.18.27-mw.1_amd64.deb
+Size: 46195076
+MD5sum: ec4fece5517c9b259b5a2bbefee1453d
+SHA1: bd9ffe54d2e39848c9ec9290891e1e8544fa5947
+SHA256: 0122d353df480c0dbf9de09cb0e64dd5efd41b8b5795f715c176acaff2882d07
+SHA512: 0635444d6d8ddb5978b36aca25cd6b9df1c8f8126a7abbebc608660e0a1dd0d256e44f0257e6d839f0236957e7008d4e86f259ab3a423537bfe63735c5b17539
+Description: MungerWare-packaged opencode, the open source AI coding agent
+ Fork of https://github.com/anomalyco/opencode distributed via
+ apt.mungerware.com. Includes the mDNS multi-interface fix.
+
+Package: opencode
+Architecture: amd64
+Version: 1.18.9-mw.1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Filename: pool/main/o/opencode/opencode_1.18.9-mw.1_amd64.deb
+Size: 46174472
+MD5sum: b1f4986203c8b393ad36df189c277594
+SHA1: 3b7d831a9729391a9372df0ac7b608efc13c0e98
+SHA256: c8f158146b8f3056a82de85149b9ea554edf2ac9804fa56b779a1b78d0208d6d
+SHA512: f8d05b0414b5c040368aac52cbb64cb179291a12a9e08bd72557d33243a93e7110f4d6b417e99aa53a9678d58af94224e4750457020fd44bad34a3b40fb1096c
+Description: MungerWare-packaged opencode, the open source AI coding agent
+ Fork of https://github.com/anomalyco/opencode distributed via
+ apt.mungerware.com. Includes the mDNS multi-interface fix.
+
+Package: perccli
+Architecture: all
+Version: 007.1623.0000.0000-mw1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Depends: bash
+Filename: pool/main/p/perccli/perccli_007.1623.0000.0000-mw1_all.deb
+Size: 2175606
+MD5sum: cd9fc6e4ce40f39fd8ee6640dbccc19f
+SHA1: 58d1154224815b25f9b5e8e24bb8d494e6366532
+SHA256: eca88172c4968cde2785013e6b425fc5f4ac1910acda9ed012caa47a2e060c3f
+SHA512: 8c0b324bac0168ddd2ec4c40420a8466d2869441c6cf0ccffdfb4c4254767d1029110df02223e103f5fdbe2a78c09cd2539cf2a8c0766174c235bbff5eff2094
+Description: Dell PERC RAID controller CLI (Broadcom MegaRAID storcli, rebadged)
+ Provides the perccli command for querying and managing Dell PERC
+ (Broadcom MegaRAID) RAID controllers -- virtual/physical disk status,
+ RAID level, cache policy, BBU health.
+
