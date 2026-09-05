@@ -940,6 +940,22 @@ Description: MungerWare-packaged opencode, the open source AI coding agent
 
 Package: opencode
 Architecture: amd64
+Version: 1.18.29-mw.1
+Priority: optional
+Section: admin
+Maintainer: Tim Hosking <munger@mungerware.com>
+Filename: pool/main/o/opencode/opencode_1.18.29-mw.1_amd64.deb
+Size: 46200446
+MD5sum: 736b71f9926cdf1d196f5dfdad62fcd2
+SHA1: 0cedf3418384f5ad78ab7132e13ca8ec36941177
+SHA256: d165bd467136bec52b52ee52a5348176bb046832b611560089f3541446f54459
+SHA512: 4d640d0474aac5e9919071366ca5b2ab3f5d54a2362c4432a22c0636b50ea7ee5d31d10e6524cbc27bf630ccb1eeef564aa0867102bae6be8d24458bfe23d55e
+Description: MungerWare-packaged opencode, the open source AI coding agent
+ Fork of https://github.com/anomalyco/opencode distributed via
+ apt.mungerware.com. Includes the mDNS multi-interface fix.
+
+Package: opencode
+Architecture: amd64
 Version: 1.18.9-mw.1
 Priority: optional
 Section: admin
